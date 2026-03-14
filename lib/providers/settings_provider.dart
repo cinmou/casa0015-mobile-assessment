@@ -14,7 +14,7 @@ class SettingsProvider extends ChangeNotifier {
   SettingsProvider() {
     _themeMode = ThemeMode.system;
     _languageCode = 'system';
-    _version = "0.0.0 - The Fool"; // 实际项目中通常使用 package_info_plus 获取
+    _version = "0.1.0 - The Magician"; // 实际项目中通常使用 package_info_plus 获取
   }
 
   // Getters
