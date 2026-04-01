@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:dynamic_color/dynamic_color.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'l10n/app_localizations.dart'; // Corrected import path
 import 'providers/tarot_provider.dart';
@@ -10,9 +12,24 @@ import 'providers/settings_provider.dart';
 import 'screens/quick_picks/quick_pick_screen.dart';
 import 'screens/oracle/oracle_pick_screen.dart';
 import 'screens/setting/settings_screen.dart';
+import 'services/auth_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize environment variables
+  await dotenv.load(fileName: ".env");
+
+  // Initialize Firebase
+  // Note: You must run `flutterfire configure` for this to work properly
+  try {
+    await Firebase.initializeApp();
+    // Perform anonymous login when app starts
+    await AuthService().signInAnonymously();
+  } catch (e) {
+    print("Firebase initialization error: $e");
+    print("Please make sure you have run `flutterfire configure`");
+  }
 
   final historyProvider = HistoryProvider();
   await historyProvider.init();
