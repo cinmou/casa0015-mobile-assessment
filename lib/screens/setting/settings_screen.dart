@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import '../../l10n/app_localizations.dart'; // Corrected import path
+import '../../l10n/app_localizations.dart';
 import '../../providers/settings_provider.dart';
+import '../../services/auth_service.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -25,10 +27,6 @@ class SettingsScreen extends StatelessWidget {
         return l10n.settingsLanguageEnglish;
       case 'zh':
         return l10n.settingsLanguageChinese;
-      case 'zh_TW':
-        return l10n.settingsLanguageTraditionalChinese;
-      case 'ja':
-        return l10n.settingsLanguageJapanese;
       default:
         return l10n.settingsLanguageSystem;
     }
@@ -36,9 +34,11 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final provider = context.watch<SettingsProvider>();
+    final settingsProvider = context.watch<SettingsProvider>();
+    final authService = AuthService();
     final colorScheme = Theme.of(context).colorScheme;
     final l10n = AppLocalizations.of(context)!;
+    final currentUser = authService.currentUser;
 
     return Scaffold(
       backgroundColor: colorScheme.surface,
@@ -55,25 +55,132 @@ class SettingsScreen extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.palette_outlined),
             title: Text(l10n.settingsTheme),
-            subtitle: Text(_getThemeName(context, provider.themeMode)),
+            subtitle: Text(_getThemeName(context, settingsProvider.themeMode)),
             trailing: const Icon(Icons.chevron_right),
-            onTap: () => _showThemePicker(context, provider),
+            onTap: () => _showThemePicker(context, settingsProvider),
           ),
           const Divider(height: 1),
           _buildSectionHeader(l10n.settingsPreferences, colorScheme),
           ListTile(
             leading: const Icon(Icons.language_outlined),
             title: Text(l10n.settingsLanguage),
-            subtitle: Text(_getLanguageName(context, provider.languageCode)),
+            subtitle: Text(_getLanguageName(context, settingsProvider.languageCode)),
             trailing: const Icon(Icons.chevron_right),
-            onTap: () => _showLanguagePicker(context, provider),
+            onTap: () => _showLanguagePicker(context, settingsProvider),
+          ),
+          const Divider(height: 1),
+          _buildSectionHeader(l10n.settingsDataManagement, colorScheme),
+          ListTile(
+            leading: const Icon(Icons.fingerprint),
+            title: Text(l10n.settingsYourUserId),
+            subtitle: Text(currentUser?.uid ?? 'N/A', overflow: TextOverflow.ellipsis),
+            trailing: IconButton(
+              icon: const Icon(Icons.copy),
+              tooltip: l10n.settingsCopyId,
+              onPressed: currentUser != null ? () {
+                Clipboard.setData(ClipboardData(text: currentUser.uid));
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('User ID copied to clipboard!')), // TODO: Localize
+                );
+              } : null,
+            ),
+          ),
+          ListTile(
+            leading: const Icon(Icons.restore_page_outlined),
+            title: Text(l10n.settingsRestoreData),
+            onTap: () => _showRestoreDialog(context),
+          ),
+          ListTile(
+            leading: Icon(Icons.delete_forever_outlined, color: colorScheme.error),
+            title: Text(l10n.settingsDeleteAccount, style: TextStyle(color: colorScheme.error)),
+            onTap: () => _showDeleteAccountDialog(context, authService),
           ),
           const Divider(height: 1),
           _buildSectionHeader(l10n.settingsAbout, colorScheme),
           ListTile(
             leading: const Icon(Icons.info_outline),
             title: Text(l10n.settingsVersion),
-            trailing: Text(provider.version, style: const TextStyle(color: Colors.grey)),
+            trailing: Text(settingsProvider.version, style: const TextStyle(color: Colors.grey)),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showRestoreDialog(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final idController = TextEditingController();
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(l10n.settingsRestoreDataTitle),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(l10n.settingsRestoreDataWarning),
+            const SizedBox(height: 16),
+            TextField(
+              controller: idController,
+              decoration: InputDecoration(
+                labelText: l10n.settingsRestoreDataHint,
+                border: const OutlineInputBorder(),
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(l10n.cancel),
+          ),
+          FilledButton(
+            onPressed: () {
+              final oldId = idController.text.trim();
+              if (oldId.isNotEmpty) {
+                print("Initiating data restore from old UID: $oldId");
+                // TODO: Implement Cloud Function call here
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(l10n.settingsRestoreDataSuccess)),
+                );
+                Navigator.pop(context);
+              }
+            },
+            child: Text(l10n.settingsRestoreDataConfirm),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showDeleteAccountDialog(BuildContext context, AuthService authService) {
+    final l10n = AppLocalizations.of(context)!;
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(l10n.settingsDeleteAccount),
+        content: Text(l10n.settingsDeleteAccountWarning),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(l10n.cancel),
+          ),
+          FilledButton(
+            style: FilledButton.styleFrom(backgroundColor: Theme.of(context).colorScheme.error),
+            onPressed: () async {
+              final success = await authService.deleteCurrentUserAccount();
+              Navigator.pop(context);
+              if (success) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(l10n.settingsDeleteAccountSuccess)),
+                );
+                // In a real app, you might want to force a restart or navigate to a splash screen
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text(l10n.settingsDeleteAccountError)),
+                );
+              }
+            },
+            child: Text(l10n.settingsDeleteAccountConfirm),
           ),
         ],
       ),
@@ -141,8 +248,6 @@ class SettingsScreen extends StatelessWidget {
       'system': l10n.settingsLanguageSystem,
       'en': l10n.settingsLanguageEnglish,
       'zh': l10n.settingsLanguageChinese,
-      'zh_TW': l10n.settingsLanguageTraditionalChinese,
-      'ja': l10n.settingsLanguageJapanese,
     };
 
     showModalBottomSheet(

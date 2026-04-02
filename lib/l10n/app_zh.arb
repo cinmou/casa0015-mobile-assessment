@@ -1,6 +1,8 @@
 {
   "@@locale": "zh",
   "appTitle": "神谕",
+  "bottomNavChoice": "做选择",
+  "bottomNavMap": "抉择地图",
   "bottomNavQuick": "速选",
   "bottomNavAiDraw": "AI 绘图",
   "bottomNavOracle": "神谕",
@@ -24,6 +26,7 @@
   "quickPickCoinFlip": "抛硬币",
   "quickPickDiceRoll": "掷骰子",
   "quickPickDrawCard": "抽张卡",
+  "quickPickFortuneSticks": "摇签筒",
   "oraclePickTitle": "塔罗工坊",
   "oraclePickLibrary": "牌库",
   "oraclePickDailyDraw": "每日一抽",
@@ -60,5 +63,38 @@
   "editQuestion": "编辑问题",
   "editQuestionHint": "你当时的问题是什么？",
   "save": "保存",
-  "tripleCardHistoryTitle": "三牌牌阵历史"
+  "tripleCardHistoryTitle": "三牌牌阵历史",
+  "choiceScreenTitle": "做出你的选择",
+  "decisionMapScreenTitle": "你的抉择地图",
+  "appIntroductionTitle": "什么是“神谕”？",
+  "appIntroductionContent": "本应用将每一次的随机决策与用户当下的物理环境（天气、位置、时间）深度绑定。你的每一个选择，都将成为个人专属“抉择地图”上的一个独特节点，最终汇聚成一段充满探索性的个人叙事。",
+  "ok": "好的",
+  "saveToMap": "收录至抉择地图",
+  "saveToMapResult": "结果: {result}",
+  "@saveToMapResult": {
+    "placeholders": {
+      "result": {
+        "type": "String"
+      }
+    }
+  },
+  "saveToMapQuestionHint": "你现在的困惑或问题是什么？",
+  "saveToMapMood": "你现在的心情？",
+  "saveToMapSolutionHint": "你最终决定做什么？",
+  "savedToMapSuccess": "已成功收录至抉择地图！",
+  "settingsDataManagement": "数据管理",
+  "settingsYourUserId": "你的用户 ID",
+  "settingsCopyId": "复制 ID",
+  "settingsRestoreData": "恢复数据",
+  "settingsRestoreDataTitle": "从 ID 恢复数据",
+  "settingsRestoreDataWarning": "警告：此操作将删除此设备上的所有当前数据，并尝试加载所提供 ID 的关联数据。此操作对当前数据不可撤销。",
+  "settingsRestoreDataHint": "输入要恢复的用户 ID",
+  "settingsRestoreDataConfirm": "恢复",
+  "settingsRestoreDataSuccess": "数据恢复已启动。请重启应用。",
+  "settingsRestoreDataError": "无法恢复数据。请检查 ID 后重试。",
+  "settingsDeleteAccount": "删除我的账户",
+  "settingsDeleteAccountWarning": "警告：此操作将永久删除您的账户及所有关联数据。此操作无法撤销。",
+  "settingsDeleteAccountConfirm": "删除账户",
+  "settingsDeleteAccountSuccess": "账户已删除。正在重启应用...",
+  "settingsDeleteAccountError": "无法删除账户。请稍后重试。"
 }

@@ -28,11 +28,50 @@ class FirestoreService {
     }
 
     try {
-      // add() 会自动生成一个唯一的文档 ID
-      await ref.add(node.toMap());
+      if (node.id != null && node.id!.isNotEmpty) {
+        // Use the provided ID (e.g., from local Hive storage)
+        await ref.doc(node.id).set(node.toMap());
+      } else {
+        // Fallback: auto-generate ID if none provided
+        await ref.add(node.toMap());
+      }
       print("Decision saved successfully to Firestore.");
     } catch (e) {
       print("Error saving decision to Firestore: $e");
+      rethrow;
+    }
+  }
+
+  /// Updates an existing decision node in Firestore
+  Future<void> updateDecision(DecisionNode node) async {
+    final ref = _userDecisionsRef;
+    if (ref == null || node.id == null || node.id!.isEmpty) {
+      print("Error: Cannot update decision. No user signed in or node ID missing.");
+      return;
+    }
+
+    try {
+      await ref.doc(node.id).update(node.toMap());
+      print("Decision updated successfully in Firestore.");
+    } catch (e) {
+      print("Error updating decision in Firestore: $e");
+      rethrow;
+    }
+  }
+
+  /// Deletes a specific decision node from Firestore
+  Future<void> deleteDecision(String id) async {
+    final ref = _userDecisionsRef;
+    if (ref == null || id.isEmpty) {
+      print("Error: Cannot delete decision. No user signed in or node ID missing.");
+      return;
+    }
+
+    try {
+      await ref.doc(id).delete();
+      print("Decision deleted successfully from Firestore.");
+    } catch (e) {
+      print("Error deleting decision from Firestore: $e");
       rethrow;
     }
   }

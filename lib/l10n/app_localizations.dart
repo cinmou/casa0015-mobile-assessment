@@ -62,8 +62,7 @@ import 'app_localizations_zh.dart';
 /// be consistent with the languages listed in the AppLocalizations.supportedLocales
 /// property.
 abstract class AppLocalizations {
-  AppLocalizations(String locale)
-    : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+  AppLocalizations(String locale) : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;
 
@@ -71,8 +70,7 @@ abstract class AppLocalizations {
     return Localizations.of<AppLocalizations>(context, AppLocalizations);
   }
 
-  static const LocalizationsDelegate<AppLocalizations> delegate =
-      _AppLocalizationsDelegate();
+  static const LocalizationsDelegate<AppLocalizations> delegate = _AppLocalizationsDelegate();
 
   /// A list of this localizations delegate along with the default localizations
   /// delegates.
@@ -84,18 +82,17 @@ abstract class AppLocalizations {
   /// Additional delegates can be added by appending to this list in
   /// MaterialApp. This list does not have to be used at all if a custom list
   /// of delegates is preferred or required.
-  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
-      <LocalizationsDelegate<dynamic>>[
-        delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-      ];
+  static const List<LocalizationsDelegate<dynamic>> localizationsDelegates = <LocalizationsDelegate<dynamic>>[
+    delegate,
+    GlobalMaterialLocalizations.delegate,
+    GlobalCupertinoLocalizations.delegate,
+    GlobalWidgetsLocalizations.delegate,
+  ];
 
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
     Locale('en'),
-    Locale('zh'),
+    Locale('zh')
   ];
 
   /// No description provided for @appTitle.
@@ -103,6 +100,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The Oracle'**
   String get appTitle;
+
+  /// No description provided for @bottomNavChoice.
+  ///
+  /// In en, this message translates to:
+  /// **'Choice'**
+  String get bottomNavChoice;
+
+  /// No description provided for @bottomNavMap.
+  ///
+  /// In en, this message translates to:
+  /// **'Map'**
+  String get bottomNavMap;
 
   /// No description provided for @bottomNavQuick.
   ///
@@ -241,6 +250,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Draw Card'**
   String get quickPickDrawCard;
+
+  /// No description provided for @quickPickFortuneSticks.
+  ///
+  /// In en, this message translates to:
+  /// **'Fortune Sticks'**
+  String get quickPickFortuneSticks;
 
   /// No description provided for @oraclePickTitle.
   ///
@@ -463,10 +478,165 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Three Card Spread History'**
   String get tripleCardHistoryTitle;
+
+  /// No description provided for @choiceScreenTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Make Your Choice'**
+  String get choiceScreenTitle;
+
+  /// No description provided for @decisionMapScreenTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Decision Map'**
+  String get decisionMapScreenTitle;
+
+  /// No description provided for @appIntroductionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'What is The Oracle?'**
+  String get appIntroductionTitle;
+
+  /// No description provided for @appIntroductionContent.
+  ///
+  /// In en, this message translates to:
+  /// **'This app deeply connects your random decisions with your current physical environment (weather, location, time). Each choice you make is a unique point on your personal \'Decision Map\', creating a narrative of your journey.'**
+  String get appIntroductionContent;
+
+  /// No description provided for @ok.
+  ///
+  /// In en, this message translates to:
+  /// **'OK'**
+  String get ok;
+
+  /// No description provided for @saveToMap.
+  ///
+  /// In en, this message translates to:
+  /// **'Save to Decision Map'**
+  String get saveToMap;
+
+  /// No description provided for @saveToMapResult.
+  ///
+  /// In en, this message translates to:
+  /// **'Result: {result}'**
+  String saveToMapResult(String result);
+
+  /// No description provided for @saveToMapQuestionHint.
+  ///
+  /// In en, this message translates to:
+  /// **'What was your question or dilemma?'**
+  String get saveToMapQuestionHint;
+
+  /// No description provided for @saveToMapMood.
+  ///
+  /// In en, this message translates to:
+  /// **'How do you feel?'**
+  String get saveToMapMood;
+
+  /// No description provided for @saveToMapSolutionHint.
+  ///
+  /// In en, this message translates to:
+  /// **'What did you decide to do?'**
+  String get saveToMapSolutionHint;
+
+  /// No description provided for @savedToMapSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved to your Decision Map!'**
+  String get savedToMapSuccess;
+
+  /// No description provided for @settingsDataManagement.
+  ///
+  /// In en, this message translates to:
+  /// **'Data Management'**
+  String get settingsDataManagement;
+
+  /// No description provided for @settingsYourUserId.
+  ///
+  /// In en, this message translates to:
+  /// **'Your User ID'**
+  String get settingsYourUserId;
+
+  /// No description provided for @settingsCopyId.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy ID'**
+  String get settingsCopyId;
+
+  /// No description provided for @settingsRestoreData.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore Data'**
+  String get settingsRestoreData;
+
+  /// No description provided for @settingsRestoreDataTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore Data from ID'**
+  String get settingsRestoreDataTitle;
+
+  /// No description provided for @settingsRestoreDataWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'WARNING: This will delete all current data on this device and attempt to load data associated with the provided ID. This action cannot be undone for current data.'**
+  String get settingsRestoreDataWarning;
+
+  /// No description provided for @settingsRestoreDataHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the User ID to restore from'**
+  String get settingsRestoreDataHint;
+
+  /// No description provided for @settingsRestoreDataConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore'**
+  String get settingsRestoreDataConfirm;
+
+  /// No description provided for @settingsRestoreDataSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Data restoration initiated. Please restart the app.'**
+  String get settingsRestoreDataSuccess;
+
+  /// No description provided for @settingsRestoreDataError.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to restore data. Please check the ID and try again.'**
+  String get settingsRestoreDataError;
+
+  /// No description provided for @settingsDeleteAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete My Account'**
+  String get settingsDeleteAccount;
+
+  /// No description provided for @settingsDeleteAccountWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'WARNING: This will permanently delete your account and all associated data. This action cannot be undone.'**
+  String get settingsDeleteAccountWarning;
+
+  /// No description provided for @settingsDeleteAccountConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Account'**
+  String get settingsDeleteAccountConfirm;
+
+  /// No description provided for @settingsDeleteAccountSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Account deleted. Restarting app...'**
+  String get settingsDeleteAccountSuccess;
+
+  /// No description provided for @settingsDeleteAccountError.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to delete account. Please try again.'**
+  String get settingsDeleteAccountError;
 }
 
-class _AppLocalizationsDelegate
-    extends LocalizationsDelegate<AppLocalizations> {
+class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
   const _AppLocalizationsDelegate();
 
   @override
@@ -475,26 +645,25 @@ class _AppLocalizationsDelegate
   }
 
   @override
-  bool isSupported(Locale locale) =>
-      <String>['en', 'zh'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => <String>['en', 'zh'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
 }
 
 AppLocalizations lookupAppLocalizations(Locale locale) {
+
+
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
-    case 'en':
-      return AppLocalizationsEn();
-    case 'zh':
-      return AppLocalizationsZh();
+    case 'en': return AppLocalizationsEn();
+    case 'zh': return AppLocalizationsZh();
   }
 
   throw FlutterError(
     'AppLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
     'an issue with the localizations generation tool. Please file an issue '
     'on GitHub with a reproducible sample app and the gen-l10n configuration '
-    'that was used.',
+    'that was used.'
   );
 }

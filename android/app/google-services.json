@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "571595189771",
-    "project_id": "the-oracle-map",
-    "storage_bucket": "the-oracle-map.firebasestorage.app"
+    "project_number": "818610451109",
+    "project_id": "the-oracle-map-cinmou",
+    "storage_bucket": "the-oracle-map-cinmou.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:571595189771:android:aa9b2bcd616ca5878a210e",
+        "mobilesdk_app_id": "1:818610451109:android:fba7c614689d6c4212534c",
         "android_client_info": {
-          "package_name": "com.cinmou.oracle"
+          "package_name": "com.cinmou.oracle.map"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyC62hd78hm_-hNYCIHR81kt4m2qYKsksFk"
+          "current_key": "AIzaSyCmI4zQc_jfJtVgfhO2wIATpxNmplDLnk8"
         }
       ],
       "services": {

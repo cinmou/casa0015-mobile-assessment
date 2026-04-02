@@ -12,6 +12,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get appTitle => 'The Oracle';
 
   @override
+  String get bottomNavChoice => 'Choice';
+
+  @override
+  String get bottomNavMap => 'Map';
+
+  @override
   String get bottomNavQuick => 'Quick';
 
   @override
@@ -79,6 +85,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get quickPickDrawCard => 'Draw Card';
+
+  @override
+  String get quickPickFortuneSticks => 'Fortune Sticks';
 
   @override
   String get oraclePickTitle => 'Tarot Workshop';
@@ -155,8 +164,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get clearHistory => 'Clear History';
 
   @override
-  String get clearHistoryConfirmation =>
-      'This will delete all non-favorited entries. This action cannot be undone.';
+  String get clearHistoryConfirmation => 'This will delete all non-favorited entries. This action cannot be undone.';
 
   @override
   String get cancel => 'Cancel';
@@ -195,4 +203,84 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get tripleCardHistoryTitle => 'Three Card Spread History';
+
+  @override
+  String get choiceScreenTitle => 'Make Your Choice';
+
+  @override
+  String get decisionMapScreenTitle => 'Your Decision Map';
+
+  @override
+  String get appIntroductionTitle => 'What is The Oracle?';
+
+  @override
+  String get appIntroductionContent => 'This app deeply connects your random decisions with your current physical environment (weather, location, time). Each choice you make is a unique point on your personal \'Decision Map\', creating a narrative of your journey.';
+
+  @override
+  String get ok => 'OK';
+
+  @override
+  String get saveToMap => 'Save to Decision Map';
+
+  @override
+  String saveToMapResult(String result) {
+    return 'Result: $result';
+  }
+
+  @override
+  String get saveToMapQuestionHint => 'What was your question or dilemma?';
+
+  @override
+  String get saveToMapMood => 'How do you feel?';
+
+  @override
+  String get saveToMapSolutionHint => 'What did you decide to do?';
+
+  @override
+  String get savedToMapSuccess => 'Saved to your Decision Map!';
+
+  @override
+  String get settingsDataManagement => 'Data Management';
+
+  @override
+  String get settingsYourUserId => 'Your User ID';
+
+  @override
+  String get settingsCopyId => 'Copy ID';
+
+  @override
+  String get settingsRestoreData => 'Restore Data';
+
+  @override
+  String get settingsRestoreDataTitle => 'Restore Data from ID';
+
+  @override
+  String get settingsRestoreDataWarning => 'WARNING: This will delete all current data on this device and attempt to load data associated with the provided ID. This action cannot be undone for current data.';
+
+  @override
+  String get settingsRestoreDataHint => 'Enter the User ID to restore from';
+
+  @override
+  String get settingsRestoreDataConfirm => 'Restore';
+
+  @override
+  String get settingsRestoreDataSuccess => 'Data restoration initiated. Please restart the app.';
+
+  @override
+  String get settingsRestoreDataError => 'Failed to restore data. Please check the ID and try again.';
+
+  @override
+  String get settingsDeleteAccount => 'Delete My Account';
+
+  @override
+  String get settingsDeleteAccountWarning => 'WARNING: This will permanently delete your account and all associated data. This action cannot be undone.';
+
+  @override
+  String get settingsDeleteAccountConfirm => 'Delete Account';
+
+  @override
+  String get settingsDeleteAccountSuccess => 'Account deleted. Restarting app...';
+
+  @override
+  String get settingsDeleteAccountError => 'Failed to delete account. Please try again.';
 }

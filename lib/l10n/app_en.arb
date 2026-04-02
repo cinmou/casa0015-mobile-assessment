@@ -1,6 +1,8 @@
 {
   "@@locale": "en",
   "appTitle": "The Oracle",
+  "bottomNavChoice": "Choice",
+  "bottomNavMap": "Map",
   "bottomNavQuick": "Quick",
   "bottomNavAiDraw": "AI Draw",
   "bottomNavOracle": "Oracle",
@@ -24,6 +26,7 @@
   "quickPickCoinFlip": "Coin Flip",
   "quickPickDiceRoll": "Dice Roll",
   "quickPickDrawCard": "Draw Card",
+  "quickPickFortuneSticks": "Fortune Sticks",
   "oraclePickTitle": "Tarot Workshop",
   "oraclePickLibrary": "Library",
   "oraclePickDailyDraw": "Daily Draw",
@@ -60,5 +63,38 @@
   "editQuestion": "Edit Question",
   "editQuestionHint": "What was your question?",
   "save": "Save",
-  "tripleCardHistoryTitle": "Three Card Spread History"
+  "tripleCardHistoryTitle": "Three Card Spread History",
+  "choiceScreenTitle": "Make Your Choice",
+  "decisionMapScreenTitle": "Your Decision Map",
+  "appIntroductionTitle": "What is The Oracle?",
+  "appIntroductionContent": "This app deeply connects your random decisions with your current physical environment (weather, location, time). Each choice you make is a unique point on your personal 'Decision Map', creating a narrative of your journey.",
+  "ok": "OK",
+  "saveToMap": "Save to Decision Map",
+  "saveToMapResult": "Result: {result}",
+  "@saveToMapResult": {
+    "placeholders": {
+      "result": {
+        "type": "String"
+      }
+    }
+  },
+  "saveToMapQuestionHint": "What was your question or dilemma?",
+  "saveToMapMood": "How do you feel?",
+  "saveToMapSolutionHint": "What did you decide to do?",
+  "savedToMapSuccess": "Saved to your Decision Map!",
+  "settingsDataManagement": "Data Management",
+  "settingsYourUserId": "Your User ID",
+  "settingsCopyId": "Copy ID",
+  "settingsRestoreData": "Restore Data",
+  "settingsRestoreDataTitle": "Restore Data from ID",
+  "settingsRestoreDataWarning": "WARNING: This will delete all current data on this device and attempt to load data associated with the provided ID. This action cannot be undone for current data.",
+  "settingsRestoreDataHint": "Enter the User ID to restore from",
+  "settingsRestoreDataConfirm": "Restore",
+  "settingsRestoreDataSuccess": "Data restoration initiated. Please restart the app.",
+  "settingsRestoreDataError": "Failed to restore data. Please check the ID and try again.",
+  "settingsDeleteAccount": "Delete My Account",
+  "settingsDeleteAccountWarning": "WARNING: This will permanently delete your account and all associated data. This action cannot be undone.",
+  "settingsDeleteAccountConfirm": "Delete Account",
+  "settingsDeleteAccountSuccess": "Account deleted. Restarting app...",
+  "settingsDeleteAccountError": "Failed to delete account. Please try again."
 }

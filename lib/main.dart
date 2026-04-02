@@ -1,50 +1,51 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
-import 'l10n/app_localizations.dart'; // Corrected import path
+import 'l10n/app_localizations.dart';
 import 'providers/tarot_provider.dart';
 import 'providers/history_provider.dart';
 import 'providers/settings_provider.dart';
-import 'screens/quick_picks/quick_pick_screen.dart';
-import 'screens/oracle/oracle_pick_screen.dart';
+import 'providers/choice_provider.dart';
 import 'screens/setting/settings_screen.dart';
+import 'screens/choice/choice_screen.dart';
+import 'screens/decision_map/decision_map_screen.dart';
 import 'services/auth_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Initialize environment variables
+  // All initializations that don't depend on auth state
   await dotenv.load(fileName: ".env");
+  await Hive.initFlutter();
+  await Firebase.initializeApp();
 
-  // Initialize Firebase
-  // Note: You must run `flutterfire configure` for this to work properly
-  try {
-    await Firebase.initializeApp();
-    // Perform anonymous login when app starts
-    await AuthService().signInAnonymously();
-  } catch (e) {
-    print("Firebase initialization error: $e");
-    print("Please make sure you have run `flutterfire configure`");
-  }
-
+  // Initialize providers
+  final settingsProvider = SettingsProvider();
+  await settingsProvider.init();
+  
   final historyProvider = HistoryProvider();
   await historyProvider.init();
 
-  final settingsProvider = SettingsProvider();
-  await settingsProvider.init();
-
   final tarotProvider = TarotProvider();
   await tarotProvider.init(settingsProvider.languageCode);
+
+  final choiceProvider = ChoiceProvider();
+
+  // Attempt to sign in silently in the background
+  AuthService().signInAnonymously();
 
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider.value(value: tarotProvider),
         ChangeNotifierProvider.value(value: historyProvider),
+        ChangeNotifierProvider.value(value: choiceProvider),
         ChangeNotifierProvider.value(value: settingsProvider),
       ],
       child: const OracleApp(),
@@ -52,41 +53,23 @@ void main() async {
   );
 }
 
-class OracleApp extends StatefulWidget {
+class OracleApp extends StatelessWidget {
   const OracleApp({super.key});
-
-  @override
-  State<OracleApp> createState() => _OracleAppState();
-}
-
-class _OracleAppState extends State<OracleApp> {
-  static const _defaultSeedColor = Colors.amber;
-  String? _previousLanguage;
 
   @override
   Widget build(BuildContext context) {
     final settings = context.watch<SettingsProvider>();
-
-    if (_previousLanguage != null && _previousLanguage != settings.languageCode) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        context.read<TarotProvider>().loadTarotData(settings.languageCode);
-      });
-    }
-    _previousLanguage = settings.languageCode;
-
     return DynamicColorBuilder(
       builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
         ColorScheme lightColorScheme = lightDynamic?.harmonized() ??
-            ColorScheme.fromSeed(seedColor: _defaultSeedColor, brightness: Brightness.light);
+            ColorScheme.fromSeed(seedColor: Colors.amber, brightness: Brightness.light);
 
         ColorScheme darkColorScheme = darkDynamic?.harmonized() ??
-            ColorScheme.fromSeed(seedColor: _defaultSeedColor, brightness: Brightness.dark);
+            ColorScheme.fromSeed(seedColor: Colors.amber, brightness: Brightness.dark);
 
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           onGenerateTitle: (context) => AppLocalizations.of(context)!.appTitle,
-
-          // --- LOCALIZATION START ---
           localizationsDelegates: const [
             AppLocalizations.delegate,
             GlobalMaterialLocalizations.delegate,
@@ -94,14 +77,12 @@ class _OracleAppState extends State<OracleApp> {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [
-            Locale('en', ''), // English
-            Locale('zh', ''), // Chinese
+            Locale('en', ''),
+            Locale('zh', ''),
           ],
           locale: settings.languageCode == 'system'
-              ? null // Let Flutter decide based on system settings
+              ? null
               : Locale(settings.languageCode),
-          // --- LOCALIZATION END ---
-
           theme: ThemeData(
             useMaterial3: true,
             colorScheme: lightColorScheme,
@@ -115,7 +96,6 @@ class _OracleAppState extends State<OracleApp> {
               indicatorColor: lightColorScheme.primary.withAlpha(77),
             )
           ),
-
           darkTheme: ThemeData(
             useMaterial3: true,
             colorScheme: darkColorScheme,
@@ -130,7 +110,6 @@ class _OracleAppState extends State<OracleApp> {
               indicatorColor: darkColorScheme.primary.withAlpha(77),
             )
           ),
-
           themeMode: settings.themeMode,
           home: const MainNavigation(),
         );
@@ -148,17 +127,56 @@ class MainNavigation extends StatefulWidget {
 
 class _MainNavigationState extends State<MainNavigation> {
   int _currentIndex = 0;
+  StreamSubscription? _authSubscription;
+  bool _loginFailed = false;
 
   final List<Widget> _pages = [
-    const QuickPickScreen(),
-    // const Center(child: Text('AI Draw - Coming Soon')),
-    const OraclePickScreen(),
+    const ChoiceScreen(),
+    const DecisionMapScreen(),
     const SettingsScreen(),
   ];
 
   @override
+  void initState() {
+    super.initState();
+    // After a short delay, check if we are still logged out.
+    Future.delayed(const Duration(seconds: 5), () {
+      if (mounted && AuthService().currentUser == null) {
+        setState(() {
+          _loginFailed = true;
+        });
+        _showLoginFailedSnackbar();
+      }
+    });
+
+    // Listen for auth state changes to hide the message if login succeeds later.
+    _authSubscription = AuthService().authStateChanges.listen((user) {
+      if (user != null && _loginFailed) {
+        setState(() {
+          _loginFailed = false;
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _authSubscription?.cancel();
+    super.dispose();
+  }
+
+  void _showLoginFailedSnackbar() {
+    // TODO: Localize this string
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Silent login failed. Cloud features are disabled.'),
+        backgroundColor: Colors.red,
+      ),
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
-    // Use the generated localizations
     final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
@@ -174,10 +192,18 @@ class _MainNavigationState extends State<MainNavigation> {
           });
         },
         destinations: [
-          NavigationDestination(icon: const Icon(Icons.grid_view_rounded), label: l10n.bottomNavQuick),
-          //NavigationDestination(icon: const Icon(Icons.auto_awesome), label: l10n.bottomNavAiDraw),
-          NavigationDestination(icon: const Icon(Icons.fort_rounded), label: l10n.bottomNavOracle),
-          NavigationDestination(icon: const Icon(Icons.person_outline), label: l10n.bottomNavMe),
+          NavigationDestination(
+            icon: const Icon(Icons.casino_outlined),
+            label: l10n.bottomNavChoice,
+          ),
+          NavigationDestination(
+            icon: const Icon(Icons.map_outlined),
+            label: l10n.bottomNavMap,
+          ),
+          NavigationDestination(
+            icon: const Icon(Icons.settings_outlined),
+            label: l10n.bottomNavMe,
+          ),
         ],
       ),
     );

@@ -50,19 +50,20 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyC62hd78hm_-hNYCIHR81kt4m2qYKsksFk',
-    appId: '1:571595189771:android:aa9b2bcd616ca5878a210e',
-    messagingSenderId: '571595189771',
-    projectId: 'the-oracle-map',
-    storageBucket: 'the-oracle-map.firebasestorage.app',
+    apiKey: 'AIzaSyCmI4zQc_jfJtVgfhO2wIATpxNmplDLnk8',
+    appId: '1:818610451109:android:fba7c614689d6c4212534c',
+    messagingSenderId: '818610451109',
+    projectId: 'the-oracle-map-cinmou',
+    storageBucket: 'the-oracle-map-cinmou.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyAm1aapFm3oIYbT4oe92Esdk4WPlmqUdvI',
-    appId: '1:571595189771:ios:07e764016a3210f78a210e',
-    messagingSenderId: '571595189771',
-    projectId: 'the-oracle-map',
-    storageBucket: 'the-oracle-map.firebasestorage.app',
-    iosBundleId: 'com.cinmou.oracle',
+    apiKey: 'AIzaSyArbHXkNeVstGUkJQcvudCn3s29gWltUdY',
+    appId: '1:818610451109:ios:c1a6a0ce6c4ea0b112534c',
+    messagingSenderId: '818610451109',
+    projectId: 'the-oracle-map-cinmou',
+    storageBucket: 'the-oracle-map-cinmou.firebasestorage.app',
+    iosBundleId: 'com.cinmou.oracle.map',
   );
+
 }

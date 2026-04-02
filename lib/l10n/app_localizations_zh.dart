@@ -12,6 +12,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get appTitle => '神谕';
 
   @override
+  String get bottomNavChoice => '做选择';
+
+  @override
+  String get bottomNavMap => '抉择地图';
+
+  @override
   String get bottomNavQuick => '速选';
 
   @override
@@ -79,6 +85,9 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get quickPickDrawCard => '抽张卡';
+
+  @override
+  String get quickPickFortuneSticks => '摇签筒';
 
   @override
   String get oraclePickTitle => '塔罗工坊';
@@ -194,4 +203,84 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get tripleCardHistoryTitle => '三牌牌阵历史';
+
+  @override
+  String get choiceScreenTitle => '做出你的选择';
+
+  @override
+  String get decisionMapScreenTitle => '你的抉择地图';
+
+  @override
+  String get appIntroductionTitle => '什么是“神谕”？';
+
+  @override
+  String get appIntroductionContent => '本应用将每一次的随机决策与用户当下的物理环境（天气、位置、时间）深度绑定。你的每一个选择，都将成为个人专属“抉择地图”上的一个独特节点，最终汇聚成一段充满探索性的个人叙事。';
+
+  @override
+  String get ok => '好的';
+
+  @override
+  String get saveToMap => '收录至抉择地图';
+
+  @override
+  String saveToMapResult(String result) {
+    return '结果: $result';
+  }
+
+  @override
+  String get saveToMapQuestionHint => '你现在的困惑或问题是什么？';
+
+  @override
+  String get saveToMapMood => '你现在的心情？';
+
+  @override
+  String get saveToMapSolutionHint => '你最终决定做什么？';
+
+  @override
+  String get savedToMapSuccess => '已成功收录至抉择地图！';
+
+  @override
+  String get settingsDataManagement => '数据管理';
+
+  @override
+  String get settingsYourUserId => '你的用户 ID';
+
+  @override
+  String get settingsCopyId => '复制 ID';
+
+  @override
+  String get settingsRestoreData => '恢复数据';
+
+  @override
+  String get settingsRestoreDataTitle => '从 ID 恢复数据';
+
+  @override
+  String get settingsRestoreDataWarning => '警告：此操作将删除此设备上的所有当前数据，并尝试加载所提供 ID 的关联数据。此操作对当前数据不可撤销。';
+
+  @override
+  String get settingsRestoreDataHint => '输入要恢复的用户 ID';
+
+  @override
+  String get settingsRestoreDataConfirm => '恢复';
+
+  @override
+  String get settingsRestoreDataSuccess => '数据恢复已启动。请重启应用。';
+
+  @override
+  String get settingsRestoreDataError => '无法恢复数据。请检查 ID 后重试。';
+
+  @override
+  String get settingsDeleteAccount => '删除我的账户';
+
+  @override
+  String get settingsDeleteAccountWarning => '警告：此操作将永久删除您的账户及所有关联数据。此操作无法撤销。';
+
+  @override
+  String get settingsDeleteAccountConfirm => '删除账户';
+
+  @override
+  String get settingsDeleteAccountSuccess => '账户已删除。正在重启应用...';
+
+  @override
+  String get settingsDeleteAccountError => '无法删除账户。请稍后重试。';
 }
