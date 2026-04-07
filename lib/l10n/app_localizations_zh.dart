@@ -193,6 +193,12 @@ class AppLocalizationsZh extends AppLocalizations {
   String get delete => '删除';
 
   @override
+  String get edit => '编辑';
+
+  @override
+  String get editDecision => '编辑抉择';
+
+  @override
   String get editQuestion => '编辑问题';
 
   @override
@@ -209,6 +215,9 @@ class AppLocalizationsZh extends AppLocalizations {
 
   @override
   String get decisionMapScreenTitle => '你的抉择地图';
+
+  @override
+  String get noDecisionsYet => '暂无抉择记录。做出选择并保存，即可查看你的地图！';
 
   @override
   String get appIntroductionTitle => '什么是“神谕”？';
@@ -356,5 +365,35 @@ class AppLocalizationsZh extends AppLocalizations {
   String get fortuneResultUnknown => '未知';
 
   @override
+  String get mood => '心情';
+
+  @override
   String get myFinalDecision => '我最终的决定是...';
+
+  @override
+  String get result => '结果';
+
+  @override
+  String get solution => '解决方案';
+
+  @override
+  String get location => '地点';
+
+  @override
+  String get unknownLocation => '未知地点';
+
+  @override
+  String get addImage => '添加图片';
+
+  @override
+  String get addImageSource => '选择图片来源';
+
+  @override
+  String get camera => '相机';
+
+  @override
+  String get gallery => '相册';
+
+  @override
+  String get deleteImage => '删除照片';
 }

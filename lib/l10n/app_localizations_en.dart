@@ -193,6 +193,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get delete => 'Delete';
 
   @override
+  String get edit => 'Edit';
+
+  @override
+  String get editDecision => 'Edit Decision';
+
+  @override
   String get editQuestion => 'Edit Question';
 
   @override
@@ -209,6 +215,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get decisionMapScreenTitle => 'Your Decision Map';
+
+  @override
+  String get noDecisionsYet => 'No decisions recorded yet. Make a choice and save it to see your map!';
 
   @override
   String get appIntroductionTitle => 'What is The Oracle?';
@@ -356,5 +365,35 @@ class AppLocalizationsEn extends AppLocalizations {
   String get fortuneResultUnknown => 'Unknown';
 
   @override
+  String get mood => 'Mood';
+
+  @override
   String get myFinalDecision => 'My final decision is...';
+
+  @override
+  String get result => 'Result';
+
+  @override
+  String get solution => 'Solution';
+
+  @override
+  String get location => 'Location';
+
+  @override
+  String get unknownLocation => 'Unknown Location';
+
+  @override
+  String get addImage => 'Add Image';
+
+  @override
+  String get addImageSource => 'Choose image source';
+
+  @override
+  String get camera => 'Camera';
+
+  @override
+  String get gallery => 'Gallery';
+
+  @override
+  String get deleteImage => 'Delete Photo';
 }

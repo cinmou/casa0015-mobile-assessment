@@ -455,6 +455,18 @@ abstract class AppLocalizations {
   /// **'Delete'**
   String get delete;
 
+  /// No description provided for @edit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get edit;
+
+  /// No description provided for @editDecision.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Decision'**
+  String get editDecision;
+
   /// No description provided for @editQuestion.
   ///
   /// In en, this message translates to:
@@ -490,6 +502,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Your Decision Map'**
   String get decisionMapScreenTitle;
+
+  /// No description provided for @noDecisionsYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No decisions recorded yet. Make a choice and save it to see your map!'**
+  String get noDecisionsYet;
 
   /// No description provided for @appIntroductionTitle.
   ///
@@ -773,11 +791,71 @@ abstract class AppLocalizations {
   /// **'Unknown'**
   String get fortuneResultUnknown;
 
+  /// No description provided for @mood.
+  ///
+  /// In en, this message translates to:
+  /// **'Mood'**
+  String get mood;
+
   /// No description provided for @myFinalDecision.
   ///
   /// In en, this message translates to:
   /// **'My final decision is...'**
   String get myFinalDecision;
+
+  /// No description provided for @result.
+  ///
+  /// In en, this message translates to:
+  /// **'Result'**
+  String get result;
+
+  /// No description provided for @solution.
+  ///
+  /// In en, this message translates to:
+  /// **'Solution'**
+  String get solution;
+
+  /// No description provided for @location.
+  ///
+  /// In en, this message translates to:
+  /// **'Location'**
+  String get location;
+
+  /// No description provided for @unknownLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown Location'**
+  String get unknownLocation;
+
+  /// No description provided for @addImage.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Image'**
+  String get addImage;
+
+  /// No description provided for @addImageSource.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose image source'**
+  String get addImageSource;
+
+  /// No description provided for @camera.
+  ///
+  /// In en, this message translates to:
+  /// **'Camera'**
+  String get camera;
+
+  /// No description provided for @gallery.
+  ///
+  /// In en, this message translates to:
+  /// **'Gallery'**
+  String get gallery;
+
+  /// No description provided for @deleteImage.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Photo'**
+  String get deleteImage;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

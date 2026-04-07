@@ -228,11 +228,11 @@ class _FortuneStickScreenState extends State<FortuneStickScreen> with SingleTick
               if (_currentResult != null)
                 _buildAnimatedResultText(l10n),
               const Spacer(),
-              Text(
+              /*Text(
                 _controller.isAnimating || _hasResult ? "" : l10n.fortuneStickTapToDraw,
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.grey.shade400),
                 textAlign: TextAlign.center,
-              ),
+              ),*/
               const SizedBox(height: 40),
             ],
           ),
