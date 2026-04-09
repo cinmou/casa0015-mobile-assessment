@@ -12,6 +12,7 @@ class DecisionNode {
   final double? longitude; // 经度
   final String? weatherCondition; // 天气状况 (例如: "Clear", "Rain")
   final double? temperature; // 气温
+  final String? imagePath; // 本地图片路径
 
   DecisionNode({
     this.id,
@@ -25,6 +26,7 @@ class DecisionNode {
     this.longitude,
     this.weatherCondition,
     this.temperature,
+    this.imagePath, // Add imagePath to constructor
   });
 
   /// 从 Firestore 的数据 Map 转换为 DecisionNode 对象
@@ -43,6 +45,7 @@ class DecisionNode {
       longitude: map['longitude']?.toDouble(),
       weatherCondition: map['weatherCondition'],
       temperature: map['temperature']?.toDouble(),
+      imagePath: map['imagePath'], // Add imagePath from map
     );
   }
 
@@ -61,6 +64,7 @@ class DecisionNode {
       if (longitude != null) 'longitude': longitude,
       if (weatherCondition != null) 'weatherCondition': weatherCondition,
       if (temperature != null) 'temperature': temperature,
+      if (imagePath != null) 'imagePath': imagePath, // Add imagePath to map
     };
   }
 
@@ -77,6 +81,7 @@ class DecisionNode {
     double? longitude,
     String? weatherCondition,
     double? temperature,
+    String? imagePath, // Add imagePath to copyWith
   }) {
     return DecisionNode(
       id: id ?? this.id,
@@ -90,6 +95,7 @@ class DecisionNode {
       longitude: longitude ?? this.longitude,
       weatherCondition: weatherCondition ?? this.weatherCondition,
       temperature: temperature ?? this.temperature,
+      imagePath: imagePath ?? this.imagePath, // Update imagePath in copyWith
     );
   }
 }

@@ -28,6 +28,10 @@
 	<true/>
     <key>NSLocationWhenInUseUsageDescription</key>
     <string>This app needs access to your location to fetch real-time weather data for your decisions and to place them on your personal Decision Map.</string>
+    <key>NSCameraUsageDescription</key>
+    <string>This app needs camera access to allow you to attach a photo to your decision card.</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>This app needs photo library access to allow you to select a photo to attach to your decision card.</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
