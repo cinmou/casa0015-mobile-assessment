@@ -10,7 +10,7 @@
 
 <p align="center">
   <a href="showcase/media/Test.mp4">Demo Video</a> ·
-  <a href="showcase/web/index.html">Landing Page</a> ·
+  <a href="https://cinmou.github.io/casa0015-oracle-map/showcase/web/">Landing Page</a> ·
   <a href="showcase/screenshots/">Screenshots</a>
 </p>
 
