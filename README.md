@@ -1,31 +1,138 @@
-# Oracle Map
+<p align="center">
+  <img src="assets/app_icon.png" alt="Oracle Map app icon" width="120">
+</p>
 
-Oracle Map is a mobile app designed to help with everyday decision-making. It offers simple, game-like tools to break the cycle of indecision and provide a path forward.
+<h1 align="center">Oracle Map</h1>
 
-## Problem Statement
+<p align="center">
+  A small mobile app for everyday decisions.
+</p>
 
-We often face "choice paralysis" and "decision fatigue" in our daily lives. This app provides a low-stress, playful way to get unstuck and make decisions in the moment.
+<p align="center">
+  <a href="showcase/media/Test.mp4">Demo Video</a> ·
+  <a href="showcase/web/index.html">Landing Page</a> ·
+  <a href="showcase/screenshots/">Screenshots</a>
+</p>
 
-## App Vision
+## Overview
 
-Oracle Map connects each random choice you make with your real-world environment, such as the weather, your location, 和 the time of day. It then visualizes these moments on a personal "Decision Map," creating a unique story of your journey.
+Oracle Map helps users deal with small daily choices without turning them into a large task. It is not an AI assistant that gives a direct answer. It is a quiet support tool that helps users pause, act, and reflect.
 
-## Features
+Modern life has many small choices: what to eat, whether to go out, whether to rest, or how to spend an evening. These choices look small, but they can take time and mental energy.
 
-*   **Decision Tools**: Use tools like a coin flip, a dice roll, or a tarot card draw to get instant answers.
-*   **Decision Map**: See a map of your past decisions, linked to the time, place, and context of each choice.
-*   **Tarot Codex**: Browse a full library of tarot cards to learn their meanings.
-*   **Personalized Experience**: The app adapts to your environment, making each decision feel unique.
+Oracle Map gives users simple physical tools for these moments. The app does not force a final answer. It helps users notice their own reaction to the result, then lets them record the moment if they want to.
 
-## Getting Started
+## Design Idea
 
-This project is a starting point for a Flutter application.
+The app is non-intrusive. It does not tell the user what they must do, and it does not ask the user to record everything.
 
-A few resources to get you started if this is your first Flutter project:
+The decision tools are familiar, subjective, and personal:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- Coin flip
+- Tarot card draw
+- Dice roll
+- Fortune stick draw
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+These tools are not meant to be rational decision engines. Their value comes from the user's response: agreement, doubt, relief, or resistance. This helps the user explore what they may already want.
+
+When a user saves a choice, they can record the question, mood, final decision, and the result given by the app. Later, the Decision Map lets them look back at these moments and see patterns in their daily choices.
+
+## Screenshots
+
+| Choice Tools | Dice Roll | Fortune Sticks |
+| --- | --- | --- |
+| ![Make Your Choice](showcase/screenshots/Make%20Your%20Choice.png) | ![Dice Roll](showcase/screenshots/Dice%20Roll.png) | ![Fortune Sticks](showcase/screenshots/Fortune%20Sticks.png) |
+
+| Oracle | Decision Map | Settings |
+| --- | --- | --- |
+| ![Oracle](showcase/screenshots/Oracle.png) | ![Decision Map](showcase/screenshots/Map.png) | ![Settings](showcase/screenshots/Settings.png) |
+
+## Demo
+
+The demo video is stored in the repository:
+
+[Watch the demo video](showcase/media/Test.mp4)
+
+## Main Features
+
+- Four decision tools for small daily choices
+- Physical interaction through tap and shake gestures
+- Animated results instead of instant button answers
+- Optional decision saving
+- A Decision Map that records past choices
+- Mood, question, final decision, and tool result for each saved record
+- Weather and location context for saved records
+- Anonymous cloud account with Firebase
+- Optional photo support through the camera or gallery
+
+## Connected Environment
+
+The app connects personal decisions with the user's physical context.
+
+It uses:
+
+- Device motion sensors for shake-based actions
+- Location data for context
+- OpenWeatherMap API for current weather
+- Firebase Auth for anonymous login
+- Firestore for cloud records
+- Camera and gallery access for optional images
+
+This makes each saved decision a record of a real moment, not only a random result.
+
+## User Flow
+
+1. Open the app and read the intro screen.
+2. Choose a tool: coin, tarot, dice, or fortune stick.
+3. Use touch or shake interaction.
+4. See an animated result.
+5. Optionally save the decision.
+6. Add a question, mood, and final decision.
+7. Review saved choices in the Decision Map.
+
+## Testing
+
+The app was installed and tested on real phones:
+
+- Google Pixel 9 Pro XL
+- iPhone 15 Pro
+
+The main flows were checked:
+
+- App launch
+- Coin flip
+- Dice roll
+- Tarot draw
+- Fortune stick draw
+- Shake interaction
+- Saving a decision
+- Decision Map display
+- Location and weather context
+- Camera or gallery image support
+
+## Setup
+
+Install dependencies:
+
+```bash
+flutter pub get
+```
+
+Create a local `.env` file for the weather API key. This file is not committed.
+
+Run the app:
+
+```bash
+flutter run
+```
+
+## Notes
+
+The app uses Firebase and OpenWeatherMap. A valid Firebase setup and local API key are needed for the full cloud and weather features.
+
+## Future Work
+
+- Add more review tools for the Decision Map
+- Improve offline behaviour
+- Add more user testing
+- Make the landing page more visual

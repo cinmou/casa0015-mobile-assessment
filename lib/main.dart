@@ -12,6 +12,7 @@ import 'providers/tarot_provider.dart';
 import 'providers/history_provider.dart';
 import 'providers/settings_provider.dart';
 import 'providers/choice_provider.dart';
+import 'screens/intro/intro_splash_screen.dart';
 import 'screens/setting/settings_screen.dart';
 import 'screens/choice/choice_screen.dart';
 import 'screens/decision_map/decision_map_screen.dart';
@@ -171,10 +172,36 @@ class OracleApp extends StatelessWidget {
             ),
           ),
           themeMode: settings.themeMode,
-          home: const MainNavigation(),
+          home: const AppEntry(),
         );
       },
     );
+  }
+}
+
+class AppEntry extends StatefulWidget {
+  const AppEntry({super.key});
+
+  @override
+  State<AppEntry> createState() => _AppEntryState();
+}
+
+class _AppEntryState extends State<AppEntry> {
+  bool _showIntro = true;
+
+  @override
+  Widget build(BuildContext context) {
+    if (_showIntro) {
+      return IntroSplashScreen(
+        onContinue: () {
+          setState(() {
+            _showIntro = false;
+          });
+        },
+      );
+    }
+
+    return const MainNavigation();
   }
 }
 
