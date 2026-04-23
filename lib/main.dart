@@ -20,25 +20,23 @@ import 'services/auth_service.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // All initializations that don't depend on auth state
+  // Initialize services that must be ready before the first frame.
   await dotenv.load(fileName: ".env");
   await Hive.initFlutter();
   await Firebase.initializeApp();
 
-  // Initialize providers
   final settingsProvider = SettingsProvider();
   await settingsProvider.init();
-  
+
   final historyProvider = HistoryProvider();
   await historyProvider.init();
 
   final tarotProvider = TarotProvider();
-  // Initial load of tarot data based on initial settings
   await tarotProvider.init(settingsProvider.languageCode);
 
   final choiceProvider = ChoiceProvider();
 
-  // Attempt to sign in silently in the background
+  // Anonymous auth is used for cloud-backed decision records.
   AuthService().signInAnonymously();
 
   runApp(
@@ -49,9 +47,7 @@ void main() async {
         ChangeNotifierProvider.value(value: choiceProvider),
         ChangeNotifierProvider.value(value: settingsProvider),
       ],
-      child: const TarotDataLoader(
-        child: OracleApp(),
-      ),
+      child: const TarotDataLoader(child: OracleApp()),
     ),
   );
 }
@@ -71,7 +67,9 @@ class _TarotDataLoaderState extends State<TarotDataLoader> {
   void initState() {
     super.initState();
     _currentLanguageCode = context.read<SettingsProvider>().languageCode;
-    print('--- [DEBUG] TarotDataLoader: initState - Initial language: $_currentLanguageCode ---');
+    print(
+      '--- [DEBUG] TarotDataLoader: initState - Initial language: $_currentLanguageCode ---',
+    );
   }
 
   @override
@@ -79,14 +77,20 @@ class _TarotDataLoaderState extends State<TarotDataLoader> {
     super.didChangeDependencies();
     final settingsProvider = context.watch<SettingsProvider>();
     final newLanguageCode = settingsProvider.languageCode;
-    print('--- [DEBUG] TarotDataLoader: didChangeDependencies - Old language: $_currentLanguageCode, New language: $newLanguageCode ---');
+    print(
+      '--- [DEBUG] TarotDataLoader: didChangeDependencies - Old language: $_currentLanguageCode, New language: $newLanguageCode ---',
+    );
 
     if (_currentLanguageCode != newLanguageCode) {
-      print('--- [DEBUG] TarotDataLoader: Language changed from $_currentLanguageCode to $newLanguageCode. Reloading Tarot data. ---');
+      print(
+        '--- [DEBUG] TarotDataLoader: Language changed from $_currentLanguageCode to $newLanguageCode. Reloading Tarot data. ---',
+      );
       _currentLanguageCode = newLanguageCode;
       context.read<TarotProvider>().loadTarotData(_currentLanguageCode);
     } else {
-      print('--- [DEBUG] TarotDataLoader: Language is still $_currentLanguageCode. No reload needed. ---');
+      print(
+        '--- [DEBUG] TarotDataLoader: Language is still $_currentLanguageCode. No reload needed. ---',
+      );
     }
   }
 
@@ -102,14 +106,24 @@ class OracleApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final settings = context.watch<SettingsProvider>();
-    print('--- [DEBUG] OracleApp: build called. Current language setting: ${settings.languageCode} ---');
+    print(
+      '--- [DEBUG] OracleApp: build called. Current language setting: ${settings.languageCode} ---',
+    );
     return DynamicColorBuilder(
       builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
-        ColorScheme lightColorScheme = lightDynamic?.harmonized() ??
-            ColorScheme.fromSeed(seedColor: Colors.amber, brightness: Brightness.light);
+        ColorScheme lightColorScheme =
+            lightDynamic?.harmonized() ??
+            ColorScheme.fromSeed(
+              seedColor: Colors.amber,
+              brightness: Brightness.light,
+            );
 
-        ColorScheme darkColorScheme = darkDynamic?.harmonized() ??
-            ColorScheme.fromSeed(seedColor: Colors.amber, brightness: Brightness.dark);
+        ColorScheme darkColorScheme =
+            darkDynamic?.harmonized() ??
+            ColorScheme.fromSeed(
+              seedColor: Colors.amber,
+              brightness: Brightness.dark,
+            );
 
         return MaterialApp(
           key: ValueKey(settings.languageCode), // Add this line
@@ -121,10 +135,7 @@ class OracleApp extends StatelessWidget {
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
           ],
-          supportedLocales: const [
-            Locale('en', ''),
-            Locale('zh', ''),
-          ],
+          supportedLocales: const [Locale('en', ''), Locale('zh', '')],
           locale: settings.languageCode == 'system'
               ? null
               : Locale(settings.languageCode),
@@ -137,9 +148,11 @@ class OracleApp extends StatelessWidget {
               centerTitle: true,
             ),
             navigationBarTheme: NavigationBarThemeData(
-              backgroundColor: lightColorScheme.secondaryContainer.withAlpha(204),
+              backgroundColor: lightColorScheme.secondaryContainer.withAlpha(
+                204,
+              ),
               indicatorColor: lightColorScheme.primary.withAlpha(77),
-            )
+            ),
           ),
           darkTheme: ThemeData(
             useMaterial3: true,
@@ -151,9 +164,11 @@ class OracleApp extends StatelessWidget {
               scrolledUnderElevation: 0,
             ),
             navigationBarTheme: NavigationBarThemeData(
-              backgroundColor: darkColorScheme.secondaryContainer.withAlpha(204),
+              backgroundColor: darkColorScheme.secondaryContainer.withAlpha(
+                204,
+              ),
               indicatorColor: darkColorScheme.primary.withAlpha(77),
-            )
+            ),
           ),
           themeMode: settings.themeMode,
           home: const MainNavigation(),
@@ -184,7 +199,7 @@ class _MainNavigationState extends State<MainNavigation> {
   @override
   void initState() {
     super.initState();
-    // After a short delay, check if we are still logged out.
+    // Give anonymous auth a moment before warning the user.
     Future.delayed(const Duration(seconds: 5), () {
       if (mounted && AuthService().currentUser == null) {
         setState(() {
@@ -194,7 +209,6 @@ class _MainNavigationState extends State<MainNavigation> {
       }
     });
 
-    // Listen for auth state changes to hide the message if login succeeds later.
     _authSubscription = AuthService().authStateChanges.listen((user) {
       if (user != null && _loginFailed) {
         setState(() {
@@ -225,10 +239,7 @@ class _MainNavigationState extends State<MainNavigation> {
     final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
-      body: IndexedStack(
-        index: _currentIndex,
-        children: _pages,
-      ),
+      body: IndexedStack(index: _currentIndex, children: _pages),
       bottomNavigationBar: NavigationBar(
         selectedIndex: _currentIndex,
         onDestinationSelected: (int index) {

@@ -16,7 +16,8 @@ class FortuneStickScreen extends StatefulWidget {
   State<FortuneStickScreen> createState() => _FortuneStickScreenState();
 }
 
-class _FortuneStickScreenState extends State<FortuneStickScreen> with SingleTickerProviderStateMixin {
+class _FortuneStickScreenState extends State<FortuneStickScreen>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
 
@@ -37,11 +38,18 @@ class _FortuneStickScreenState extends State<FortuneStickScreen> with SingleTick
       duration: const Duration(milliseconds: 800),
       vsync: this,
     );
-    _animation = CurvedAnimation(parent: _controller, curve: Curves.easeOutBack);
+    _animation = CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeOutBack,
+    );
 
-    _accelerometerSubscription = userAccelerometerEventStream().listen((UserAccelerometerEvent event) {
+    _accelerometerSubscription = userAccelerometerEventStream().listen((
+      UserAccelerometerEvent event,
+    ) {
       if (!_isShakeEnabled) return;
-      double acceleration = sqrt(event.x * event.x + event.y * event.y + event.z * event.z);
+      double acceleration = sqrt(
+        event.x * event.x + event.y * event.y + event.z * event.z,
+      );
       if (acceleration > 15.0) {
         final now = DateTime.now();
         if (now.difference(_lastShakeTime).inMilliseconds > 400) {
@@ -76,14 +84,21 @@ class _FortuneStickScreenState extends State<FortuneStickScreen> with SingleTick
     final l10n = AppLocalizations.of(context)!;
     final questionController = TextEditingController();
     final solutionController = TextEditingController();
-    String selectedMood = '🤔'; 
-    
+    String selectedMood = '🤔';
+
     String resultString = '';
-    switch(_currentResult) {
-      case FortuneStickResult.short: resultString = l10n.fortuneStickShort; break;
-      case FortuneStickResult.medium: resultString = l10n.fortuneStickMedium; break;
-      case FortuneStickResult.long: resultString = l10n.fortuneStickLong; break;
-      default: resultString = "Unknown";
+    switch (_currentResult) {
+      case FortuneStickResult.short:
+        resultString = l10n.fortuneStickShort;
+        break;
+      case FortuneStickResult.medium:
+        resultString = l10n.fortuneStickMedium;
+        break;
+      case FortuneStickResult.long:
+        resultString = l10n.fortuneStickLong;
+        break;
+      default:
+        resultString = "Unknown";
     }
 
     showDialog(
@@ -100,7 +115,10 @@ class _FortuneStickScreenState extends State<FortuneStickScreen> with SingleTick
                   children: [
                     Text(l10n.saveToMapResult(resultString)),
                     const SizedBox(height: 16),
-                    Text(l10n.saveToMapQuestionHint, style: Theme.of(context).textTheme.labelLarge),
+                    Text(
+                      l10n.saveToMapQuestionHint,
+                      style: Theme.of(context).textTheme.labelLarge,
+                    ),
                     const SizedBox(height: 8),
                     TextField(
                       controller: questionController,
@@ -114,22 +132,30 @@ class _FortuneStickScreenState extends State<FortuneStickScreen> with SingleTick
                     DropdownButton<String>(
                       value: selectedMood,
                       isExpanded: true,
-                      items: <String>['😃', '😐', '😔', '🤔', '😎', '😠', '😭'].map((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value, style: const TextStyle(fontSize: 24)),
-                        );
-                      }).toList(),
+                      items: <String>['😃', '😐', '😔', '🤔', '😎', '😠', '😭']
+                          .map((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(
+                                value,
+                                style: const TextStyle(fontSize: 24),
+                              ),
+                            );
+                          })
+                          .toList(),
                       onChanged: (String? newValue) {
                         if (newValue != null) {
                           setStateDialog(() {
-                            selectedMood = newValue; 
+                            selectedMood = newValue;
                           });
                         }
                       },
                     ),
                     const SizedBox(height: 16),
-                    Text(l10n.saveToMapFinalDecision, style: Theme.of(context).textTheme.labelLarge),
+                    Text(
+                      l10n.saveToMapFinalDecision,
+                      style: Theme.of(context).textTheme.labelLarge,
+                    ),
                     const SizedBox(height: 8),
                     TextField(
                       controller: solutionController,
@@ -151,12 +177,12 @@ class _FortuneStickScreenState extends State<FortuneStickScreen> with SingleTick
                   onPressed: () {
                     final question = questionController.text.trim();
                     final solution = solutionController.text.trim();
-                    
+
                     context.read<ChoiceProvider>().addDecisionNode(
                       tool: l10n.fortuneToolName,
                       result: resultString,
                       question: question,
-                      solution: solution, 
+                      solution: solution,
                       mood: selectedMood,
                     );
 
@@ -168,7 +194,7 @@ class _FortuneStickScreenState extends State<FortuneStickScreen> with SingleTick
                 ),
               ],
             );
-          }
+          },
         );
       },
     );
@@ -187,11 +213,17 @@ class _FortuneStickScreenState extends State<FortuneStickScreen> with SingleTick
     return Scaffold(
       backgroundColor: bgColor,
       appBar: AppBar(
-        title: Text(l10n.quickPickFortuneSticks, style: const TextStyle(color: goldColor)), // Set title color to gold
+        title: Text(
+          l10n.quickPickFortuneSticks,
+          style: const TextStyle(color: goldColor),
+        ), // Set title color to gold
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: goldColor), // Set back button color to gold
+          icon: const Icon(
+            Icons.arrow_back_ios,
+            color: goldColor,
+          ), // Set back button color to gold
           onPressed: () => Navigator.of(context).pop(),
         ),
         actions: [
@@ -219,20 +251,13 @@ class _FortuneStickScreenState extends State<FortuneStickScreen> with SingleTick
                   clipBehavior: Clip.none,
                   children: [
                     _buildStickCylinder(),
-                    if (_currentResult != null)
-                      _buildAnimatedStick(),
+                    if (_currentResult != null) _buildAnimatedStick(),
                   ],
                 ),
               ),
               const Spacer(),
-              if (_currentResult != null)
-                _buildAnimatedResultText(l10n),
+              if (_currentResult != null) _buildAnimatedResultText(l10n),
               const Spacer(),
-              /*Text(
-                _controller.isAnimating || _hasResult ? "" : l10n.fortuneStickTapToDraw,
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.grey.shade400),
-                textAlign: TextAlign.center,
-              ),*/
               const SizedBox(height: 40),
             ],
           ),
@@ -250,7 +275,9 @@ class _FortuneStickScreenState extends State<FortuneStickScreen> with SingleTick
           }
         },
         shape: const CircleBorder(),
-        backgroundColor: _isShakeEnabled ? Colors.amber.shade700 : Colors.grey.shade400,
+        backgroundColor: _isShakeEnabled
+            ? Colors.amber.shade700
+            : Colors.grey.shade400,
         child: Icon(
           _isShakeEnabled ? Icons.vibration : Icons.mobile_off,
           color: Colors.white,
@@ -306,7 +333,9 @@ class _FortuneStickScreenState extends State<FortuneStickScreen> with SingleTick
                 height: 25,
                 decoration: BoxDecoration(
                   color: Colors.brown.shade800,
-                  borderRadius: const BorderRadius.vertical(bottom: Radius.circular(12)),
+                  borderRadius: const BorderRadius.vertical(
+                    bottom: Radius.circular(12),
+                  ),
                   border: Border.all(color: Colors.brown.shade900, width: 3),
                 ),
               ),
@@ -349,9 +378,15 @@ class _FortuneStickScreenState extends State<FortuneStickScreen> with SingleTick
   Widget _buildDrawnStick(FortuneStickResult result) {
     double height;
     switch (result) {
-      case FortuneStickResult.short: height = 150; break;
-      case FortuneStickResult.medium: height = 180; break;
-      case FortuneStickResult.long: height = 210; break;
+      case FortuneStickResult.short:
+        height = 150;
+        break;
+      case FortuneStickResult.medium:
+        height = 180;
+        break;
+      case FortuneStickResult.long:
+        height = 210;
+        break;
     }
 
     return Container(
@@ -375,10 +410,14 @@ class _FortuneStickScreenState extends State<FortuneStickScreen> with SingleTick
 
   String _getStickResultText(AppLocalizations l10n) {
     switch (_currentResult) {
-      case FortuneStickResult.short: return l10n.fortuneStickShort;
-      case FortuneStickResult.medium: return l10n.fortuneStickMedium;
-      case FortuneStickResult.long: return l10n.fortuneStickLong;
-      default: return "";
+      case FortuneStickResult.short:
+        return l10n.fortuneStickShort;
+      case FortuneStickResult.medium:
+        return l10n.fortuneStickMedium;
+      case FortuneStickResult.long:
+        return l10n.fortuneStickLong;
+      default:
+        return "";
     }
   }
 }

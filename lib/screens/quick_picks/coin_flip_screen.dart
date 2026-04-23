@@ -11,7 +11,8 @@ class CoinFlipScreen extends StatefulWidget {
   State<CoinFlipScreen> createState() => _CoinFlipScreenState();
 }
 
-class _CoinFlipScreenState extends State<CoinFlipScreen> with SingleTickerProviderStateMixin {
+class _CoinFlipScreenState extends State<CoinFlipScreen>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _flipAnimation;
   late Animation<double> _heightAnimation;
@@ -28,8 +29,20 @@ class _CoinFlipScreenState extends State<CoinFlipScreen> with SingleTickerProvid
     );
 
     _heightAnimation = TweenSequence<double>([
-      TweenSequenceItem(tween: Tween(begin: 1.0, end: 1.8).chain(CurveTween(curve: Curves.easeOut)), weight: 50),
-      TweenSequenceItem(tween: Tween(begin: 1.8, end: 1.0).chain(CurveTween(curve: Curves.bounceOut)), weight: 50),
+      TweenSequenceItem(
+        tween: Tween(
+          begin: 1.0,
+          end: 1.8,
+        ).chain(CurveTween(curve: Curves.easeOut)),
+        weight: 50,
+      ),
+      TweenSequenceItem(
+        tween: Tween(
+          begin: 1.8,
+          end: 1.0,
+        ).chain(CurveTween(curve: Curves.bounceOut)),
+        weight: 50,
+      ),
     ]).animate(_controller);
 
     _flipAnimation = Tween<double>(begin: 0, end: 0).animate(_controller);
@@ -42,18 +55,19 @@ class _CoinFlipScreenState extends State<CoinFlipScreen> with SingleTickerProvid
     double endAngle;
 
     if (randomVal == 0) {
-      // 1/200 概率立起来 (Edge)
       endAngle = (pi * 10) + (pi / 2);
     } else {
-      // 随机正反面
       bool isHeads = Random().nextBool();
       endAngle = isHeads ? (pi * 12) : (pi * 11);
     }
 
-    _flipAnimation = Tween<double>(
-      begin: _flipAnimation.value % (2 * pi),
-      end: endAngle,
-    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOutQuart));
+    _flipAnimation =
+        Tween<double>(
+          begin: _flipAnimation.value % (2 * pi),
+          end: endAngle,
+        ).animate(
+          CurvedAnimation(parent: _controller, curve: Curves.easeInOutQuart),
+        );
 
     HapticFeedback.heavyImpact();
     _controller.forward(from: 0).then((_) {
@@ -71,7 +85,6 @@ class _CoinFlipScreenState extends State<CoinFlipScreen> with SingleTickerProvid
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text("Authentic 3D Coin")),
-      // 使用 GestureDetector 包裹，点击任意空白处均可翻转
       body: GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: _flipCoin,
@@ -83,7 +96,7 @@ class _CoinFlipScreenState extends State<CoinFlipScreen> with SingleTickerProvid
               return Transform(
                 alignment: Alignment.center,
                 transform: Matrix4.identity()
-                  ..setEntry(3, 2, 0.001) // 3D 透视
+                  ..setEntry(3, 2, 0.001)
                   ..scale(_heightAnimation.value)
                   ..rotateX(rotation),
                 child: _build3DCoin(rotation),
@@ -98,20 +111,17 @@ class _CoinFlipScreenState extends State<CoinFlipScreen> with SingleTickerProvid
   Widget _build3DCoin(double rotation) {
     double normAngle = rotation % (2 * pi);
 
-    // 判断当前哪一面朝向用户
     bool isBackVisible = normAngle > pi / 2 && normAngle < 3 * pi / 2;
-    // 判断侧边是否处于可见角度
-    bool isEdgeVisible = (normAngle > pi * 0.2 && normAngle < pi * 0.8) ||
+    bool isEdgeVisible =
+        (normAngle > pi * 0.2 && normAngle < pi * 0.8) ||
         (normAngle > pi * 1.2 && normAngle < pi * 1.8);
 
-    // 正面面片 (Z轴向外移动一半厚度)
     Widget frontFace = Transform(
       alignment: Alignment.center,
       transform: Matrix4.identity()..translate(0.0, 0.0, -coinThickness / 2),
       child: _buildCoinFace(isBack: false),
     );
 
-    // 背面面片 (Z轴向内移动一半厚度，并翻转180度避免背面图案上下颠倒)
     Widget backFace = Transform(
       alignment: Alignment.center,
       transform: Matrix4.identity()
@@ -120,7 +130,6 @@ class _CoinFlipScreenState extends State<CoinFlipScreen> with SingleTickerProvid
       child: _buildCoinFace(isBack: true),
     );
 
-    // 动态决定渲染层级：谁面向屏幕，谁就放在 Stack 的最后渲染
     List<Widget> stackChildren = [];
 
     if (isEdgeVisible) {
@@ -138,16 +147,13 @@ class _CoinFlipScreenState extends State<CoinFlipScreen> with SingleTickerProvid
 
     if (isBackVisible) {
       stackChildren.add(frontFace);
-      stackChildren.add(backFace); // 背面朝向用户，背面放最后
+      stackChildren.add(backFace);
     } else {
       stackChildren.add(backFace);
-      stackChildren.add(frontFace); // 正面朝向用户，正面放最后
+      stackChildren.add(frontFace);
     }
 
-    return Stack(
-      alignment: Alignment.center,
-      children: stackChildren,
-    );
+    return Stack(alignment: Alignment.center, children: stackChildren);
   }
 
   Widget _buildCoinFace({required bool isBack}) {
@@ -157,7 +163,11 @@ class _CoinFlipScreenState extends State<CoinFlipScreen> with SingleTickerProvid
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         gradient: LinearGradient(
-          colors: [Colors.amber.shade200, Colors.amber.shade600, Colors.amber.shade800],
+          colors: [
+            Colors.amber.shade200,
+            Colors.amber.shade600,
+            Colors.amber.shade800,
+          ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -180,7 +190,11 @@ class _CoinFlipScreenState extends State<CoinFlipScreen> with SingleTickerProvid
       decoration: BoxDecoration(
         color: Colors.amber.shade900,
         gradient: LinearGradient(
-          colors: [Colors.amber.shade900, Colors.amber.shade700, Colors.amber.shade900],
+          colors: [
+            Colors.amber.shade900,
+            Colors.amber.shade700,
+            Colors.amber.shade900,
+          ],
         ),
       ),
       child: const Center(

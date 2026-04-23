@@ -14,10 +14,13 @@ class OracleRandomSingleDrawScreen extends StatefulWidget {
   const OracleRandomSingleDrawScreen({super.key});
 
   @override
-  State<OracleRandomSingleDrawScreen> createState() => _OracleRandomSingleDrawScreenState();
+  State<OracleRandomSingleDrawScreen> createState() =>
+      _OracleRandomSingleDrawScreenState();
 }
 
-class _OracleRandomSingleDrawScreenState extends State<OracleRandomSingleDrawScreen> with SingleTickerProviderStateMixin {
+class _OracleRandomSingleDrawScreenState
+    extends State<OracleRandomSingleDrawScreen>
+    with SingleTickerProviderStateMixin {
   TarotCard? _drawnCard;
   bool? _isReversed;
   bool _isFaceUp = false;
@@ -96,13 +99,15 @@ class _OracleRandomSingleDrawScreenState extends State<OracleRandomSingleDrawScr
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
-                  boxShadow: _isFaceUp ? [
-                    BoxShadow(
-                      color: goldColor.withAlpha(100),
-                      blurRadius: 25,
-                      spreadRadius: 2,
-                    )
-                  ] : [],
+                  boxShadow: _isFaceUp
+                      ? [
+                          BoxShadow(
+                            color: goldColor.withAlpha(100),
+                            blurRadius: 25,
+                            spreadRadius: 2,
+                          ),
+                        ]
+                      : [],
                 ),
                 child: TarotCardWidget(
                   card: _drawnCard!,
@@ -124,7 +129,11 @@ class _OracleRandomSingleDrawScreenState extends State<OracleRandomSingleDrawScr
                 if (!_hasFlippedOnce)
                   Text(
                     l10n.singleDrawTapToReveal,
-                    style: const TextStyle(color: Colors.white24, letterSpacing: 2, fontSize: 14),
+                    style: const TextStyle(
+                      color: Colors.white24,
+                      letterSpacing: 2,
+                      fontSize: 14,
+                    ),
                   ),
                 const SizedBox(height: 5),
                 AnimatedOpacity(
@@ -135,18 +144,29 @@ class _OracleRandomSingleDrawScreenState extends State<OracleRandomSingleDrawScr
                           children: [
                             _buildBottomInfo(),
                             ElevatedButton(
-                              onPressed: () => _showMeaningSheet(context, _drawnCard!, _isReversed!, l10n),
+                              onPressed: () => _showMeaningSheet(
+                                context,
+                                _drawnCard!,
+                                _isReversed!,
+                                l10n,
+                              ),
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: goldColor,
                                 foregroundColor: Colors.black,
-                                padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 15),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 40,
+                                  vertical: 15,
+                                ),
                                 shape: const StadiumBorder(),
                                 // elevation: 8,
                                 // shadowColor: goldColor.withAlpha(128),
                               ),
                               child: Text(
                                 l10n.singleDrawShowMeaning,
-                                style: const TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1.2),
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  letterSpacing: 1.2,
+                                ),
                               ),
                             ),
                           ],
@@ -162,9 +182,16 @@ class _OracleRandomSingleDrawScreenState extends State<OracleRandomSingleDrawScr
     );
   }
 
-  PreferredSizeWidget _buildAppBar(BuildContext context, Color goldColor, AppLocalizations l10n) {
+  PreferredSizeWidget _buildAppBar(
+    BuildContext context,
+    Color goldColor,
+    AppLocalizations l10n,
+  ) {
     return AppBar(
-      title: Text(l10n.oraclePickDailyDraw, style: TextStyle(color: goldColor, letterSpacing: 1.5)),
+      title: Text(
+        l10n.oraclePickDailyDraw,
+        style: TextStyle(color: goldColor, letterSpacing: 1.5),
+      ),
       centerTitle: true,
       backgroundColor: Colors.transparent,
       elevation: 0,
@@ -177,7 +204,10 @@ class _OracleRandomSingleDrawScreenState extends State<OracleRandomSingleDrawScr
           animation: _feedbackController,
           builder: (context, child) {
             double glowScale = 0.5 + (_feedbackController.value * 1.5);
-            double glowOpacity = (1.0 - _feedbackController.value).clamp(0.0, 0.6);
+            double glowOpacity = (1.0 - _feedbackController.value).clamp(
+              0.0,
+              0.6,
+            );
             return Stack(
               alignment: Alignment.center,
               children: [
@@ -190,15 +220,28 @@ class _OracleRandomSingleDrawScreenState extends State<OracleRandomSingleDrawScr
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         gradient: RadialGradient(
-                          colors: [goldColor.withAlpha((glowOpacity * 255).toInt()), Colors.transparent],
+                          colors: [
+                            goldColor.withAlpha((glowOpacity * 255).toInt()),
+                            Colors.transparent,
+                          ],
                         ),
                       ),
                     ),
                   ),
                 IconButton(
-                  icon: Icon(Icons.history, color: _feedbackController.isAnimating ? Colors.white : goldColor),
-                  onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const OracleSingleCardHistoryScreen())),
-                )
+                  icon: Icon(
+                    Icons.history,
+                    color: _feedbackController.isAnimating
+                        ? Colors.white
+                        : goldColor,
+                  ),
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const OracleSingleCardHistoryScreen(),
+                    ),
+                  ),
+                ),
               ],
             );
           },
@@ -207,7 +250,12 @@ class _OracleRandomSingleDrawScreenState extends State<OracleRandomSingleDrawScr
     );
   }
 
-  void _showMeaningSheet(BuildContext context, TarotCard card, bool isRev, AppLocalizations l10n) {
+  void _showMeaningSheet(
+    BuildContext context,
+    TarotCard card,
+    bool isRev,
+    AppLocalizations l10n,
+  ) {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
@@ -215,7 +263,9 @@ class _OracleRandomSingleDrawScreenState extends State<OracleRandomSingleDrawScr
       context: context,
       isScrollControlled: true,
       backgroundColor: colorScheme.surface,
-      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
       builder: (context) {
         return DraggableScrollableSheet(
           expand: false,
@@ -254,7 +304,10 @@ class _OracleRandomSingleDrawScreenState extends State<OracleRandomSingleDrawScr
                           Padding(
                             padding: const EdgeInsets.only(left: 8),
                             child: Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 6,
+                                vertical: 2,
+                              ),
                               decoration: BoxDecoration(
                                 color: colorScheme.errorContainer,
                                 borderRadius: BorderRadius.circular(4),
@@ -267,22 +320,25 @@ class _OracleRandomSingleDrawScreenState extends State<OracleRandomSingleDrawScr
                                 ),
                               ),
                             ),
-                          )
+                          ),
                       ],
                     ),
                     const SizedBox(height: 12),
                     Wrap(
                       spacing: 8,
                       runSpacing: 4,
-                      children: (isRev ? card.reversedKeywords : card.uprightKeywords).map((keyword) {
-                        return Chip(
-                          label: Text(keyword),
-                          labelStyle: textTheme.bodySmall,
-                          backgroundColor: colorScheme.surfaceContainer,
-                          side: BorderSide.none,
-                          visualDensity: VisualDensity.compact,
-                        );
-                      }).toList(),
+                      children:
+                          (isRev ? card.reversedKeywords : card.uprightKeywords)
+                              .map((keyword) {
+                                return Chip(
+                                  label: Text(keyword),
+                                  labelStyle: textTheme.bodySmall,
+                                  backgroundColor: colorScheme.surfaceContainer,
+                                  side: BorderSide.none,
+                                  visualDensity: VisualDensity.compact,
+                                );
+                              })
+                              .toList(),
                     ),
                     const SizedBox(height: 16),
                     const Divider(),
@@ -305,27 +361,40 @@ class _OracleRandomSingleDrawScreenState extends State<OracleRandomSingleDrawScr
     );
   }
 
-  // 底部信息 (抽牌后 - 永久显示)
   Widget _buildBottomInfo() {
     return Column(
       children: [
         Text(
           _drawnCard!.name.toUpperCase(),
-          style: const TextStyle(fontSize: 26, color: Color(0xFFD4AF37), fontWeight: FontWeight.bold),
+          style: const TextStyle(
+            fontSize: 26,
+            color: Color(0xFFD4AF37),
+            fontWeight: FontWeight.bold,
+          ),
         ),
         const SizedBox(height: 8),
         if (_isReversed == true)
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
             decoration: BoxDecoration(
-                border: Border.all(color: Colors.redAccent.withAlpha(128)),
-                borderRadius: BorderRadius.circular(4)
+              border: Border.all(color: Colors.redAccent.withAlpha(128)),
+              borderRadius: BorderRadius.circular(4),
             ),
-            child: const Text("REVERSED", style: TextStyle(color: Colors.redAccent, fontSize: 10, letterSpacing: 1.2)),
+            child: const Text(
+              "REVERSED",
+              style: TextStyle(
+                color: Colors.redAccent,
+                fontSize: 10,
+                letterSpacing: 1.2,
+              ),
+            ),
           ),
         const SizedBox(height: 10),
         Text(
-          (_isReversed! ? _drawnCard!.reversedKeywords : _drawnCard!.uprightKeywords).join(" • "),
+          (_isReversed!
+                  ? _drawnCard!.reversedKeywords
+                  : _drawnCard!.uprightKeywords)
+              .join(" • "),
           textAlign: TextAlign.center,
           style: const TextStyle(color: Colors.white70, fontSize: 16),
         ),
@@ -346,7 +415,9 @@ class _OracleRandomSingleDrawScreenState extends State<OracleRandomSingleDrawScr
         'img': _drawnCard!.img,
         'isReversed': _isReversed,
         'arcana': _drawnCard!.arcana,
-        'keywords': _isReversed! ? _drawnCard!.reversedKeywords : _drawnCard!.uprightKeywords,
+        'keywords': _isReversed!
+            ? _drawnCard!.reversedKeywords
+            : _drawnCard!.uprightKeywords,
       },
       question: l10n.oraclePickDailyDraw,
       isFavorite: false,

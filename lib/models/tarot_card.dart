@@ -1,9 +1,9 @@
 class TarotCard {
-  final String number;      // 牌号
-  final String name;     // 名字
-  final String arcana;   // 阿尔卡娜类型 (Major/Minor)
+  final String number;
+  final String name;
+  final String arcana;
   final String? suit;
-  final String img; // 图片文件名 (例如: 00-TheFool.png)
+  final String img;
   final List<String> uprightKeywords;
   final String uprightMeaning;
   final List<String> reversedKeywords;
@@ -21,15 +21,13 @@ class TarotCard {
     required this.reversedMeaning,
   });
 
-  // 逻辑：将 JSON 转为 Dart 对象
   factory TarotCard.fromJson(Map<String, dynamic> json) {
     return TarotCard(
       name: json['name'],
       number: json['number'],
       arcana: json['arcana'],
-      suit: json['suit'], // 如果 JSON 里是 null，这里也会自动赋值为 null
+      suit: json['suit'],
       img: json['img'],
-      // 在这里直接从嵌套的 Map 中取值
       uprightKeywords: List<String>.from(json['upright']['keywords']),
       uprightMeaning: json['upright']['meaning'],
       reversedKeywords: List<String>.from(json['reversed']['keywords']),
@@ -37,7 +35,5 @@ class TarotCard {
     );
   }
 
-  // 方便获取完整图片路径的方法
   String get fullPath => 'assets/images/tarot/$img';
-
 }

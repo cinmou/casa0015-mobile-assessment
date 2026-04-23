@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../../l10n/app_localizations.dart';
 import '../../providers/settings_provider.dart';
+import '../intro/intro_splash_screen.dart';
 import '../../services/auth_service.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -44,7 +45,6 @@ class SettingsScreen extends StatelessWidget {
       backgroundColor: colorScheme.surface,
       appBar: AppBar(
         title: Text(l10n.settingsTitle),
-        // centerTitle: true,
         backgroundColor: Colors.transparent,
         elevation: 0,
         scrolledUnderElevation: 0,
@@ -64,7 +64,9 @@ class SettingsScreen extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.language_outlined),
             title: Text(l10n.settingsLanguage),
-            subtitle: Text(_getLanguageName(context, settingsProvider.languageCode)),
+            subtitle: Text(
+              _getLanguageName(context, settingsProvider.languageCode),
+            ),
             trailing: const Icon(Icons.chevron_right),
             onTap: () => _showLanguagePicker(context, settingsProvider),
           ),
@@ -73,16 +75,21 @@ class SettingsScreen extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.fingerprint),
             title: Text(l10n.settingsYourUserId),
-            subtitle: Text(currentUser?.uid ?? 'N/A', overflow: TextOverflow.ellipsis),
+            subtitle: Text(
+              currentUser?.uid ?? 'N/A',
+              overflow: TextOverflow.ellipsis,
+            ),
             trailing: IconButton(
               icon: const Icon(Icons.copy),
               tooltip: l10n.settingsCopyId,
-              onPressed: currentUser != null ? () {
-                Clipboard.setData(ClipboardData(text: currentUser.uid));
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(l10n.settingsUserIdCopied)),
-                );
-              } : null,
+              onPressed: currentUser != null
+                  ? () {
+                      Clipboard.setData(ClipboardData(text: currentUser.uid));
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text(l10n.settingsUserIdCopied)),
+                      );
+                    }
+                  : null,
             ),
           ),
           ListTile(
@@ -91,16 +98,43 @@ class SettingsScreen extends StatelessWidget {
             onTap: () => _showRestoreDialog(context),
           ),
           ListTile(
-            leading: Icon(Icons.delete_forever_outlined, color: colorScheme.error),
-            title: Text(l10n.settingsDeleteAccount, style: TextStyle(color: colorScheme.error)),
+            leading: Icon(
+              Icons.delete_forever_outlined,
+              color: colorScheme.error,
+            ),
+            title: Text(
+              l10n.settingsDeleteAccount,
+              style: TextStyle(color: colorScheme.error),
+            ),
             onTap: () => _showDeleteAccountDialog(context, authService),
           ),
           const Divider(height: 1),
           _buildSectionHeader(l10n.settingsAbout, colorScheme),
           ListTile(
+            leading: const Icon(Icons.auto_stories_outlined),
+            title: Text(l10n.appIntroductionTitle),
+            subtitle: Text(
+              l10n.appIntroductionContent,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const IntroSplashScreen(),
+                ),
+              );
+            },
+          ),
+          ListTile(
             leading: const Icon(Icons.info_outline),
             title: Text(l10n.settingsVersion),
-            trailing: Text(settingsProvider.version, style: const TextStyle(color: Colors.grey)),
+            trailing: Text(
+              settingsProvider.version,
+              style: const TextStyle(color: Colors.grey),
+            ),
           ),
         ],
       ),
@@ -138,7 +172,7 @@ class SettingsScreen extends StatelessWidget {
               final oldId = idController.text.trim();
               if (oldId.isNotEmpty) {
                 print("Initiating data restore from old UID: $oldId");
-                // TODO: Implement Cloud Function call here
+                // This placeholder can later call a Cloud Function to restore data.
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text(l10n.settingsRestoreDataSuccess)),
                 );
@@ -165,7 +199,9 @@ class SettingsScreen extends StatelessWidget {
             child: Text(l10n.cancel),
           ),
           FilledButton(
-            style: FilledButton.styleFrom(backgroundColor: Theme.of(context).colorScheme.error),
+            style: FilledButton.styleFrom(
+              backgroundColor: Theme.of(context).colorScheme.error,
+            ),
             onPressed: () async {
               final success = await authService.deleteCurrentUserAccount();
               Navigator.pop(context);
@@ -173,7 +209,6 @@ class SettingsScreen extends StatelessWidget {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text(l10n.settingsDeleteAccountSuccess)),
                 );
-                // In a real app, you might want to force a restart or navigate to a splash screen
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text(l10n.settingsDeleteAccountError)),
@@ -216,11 +251,35 @@ class SettingsScreen extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: Text(l10n.settingsTheme, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                child: Text(
+                  l10n.settingsTheme,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
-              _buildThemeOption(context, provider, l10n.settingsThemeSystem, ThemeMode.system, Icons.brightness_auto),
-              _buildThemeOption(context, provider, l10n.settingsThemeLight, ThemeMode.light, Icons.light_mode),
-              _buildThemeOption(context, provider, l10n.settingsThemeDark, ThemeMode.dark, Icons.dark_mode),
+              _buildThemeOption(
+                context,
+                provider,
+                l10n.settingsThemeSystem,
+                ThemeMode.system,
+                Icons.brightness_auto,
+              ),
+              _buildThemeOption(
+                context,
+                provider,
+                l10n.settingsThemeLight,
+                ThemeMode.light,
+                Icons.light_mode,
+              ),
+              _buildThemeOption(
+                context,
+                provider,
+                l10n.settingsThemeDark,
+                ThemeMode.dark,
+                Icons.dark_mode,
+              ),
               const SizedBox(height: 10),
             ],
           ),
@@ -229,12 +288,28 @@ class SettingsScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildThemeOption(BuildContext context, SettingsProvider provider, String title, ThemeMode mode, IconData icon) {
+  Widget _buildThemeOption(
+    BuildContext context,
+    SettingsProvider provider,
+    String title,
+    ThemeMode mode,
+    IconData icon,
+  ) {
     final isSelected = provider.themeMode == mode;
     return ListTile(
-      leading: Icon(icon, color: isSelected ? Theme.of(context).colorScheme.primary : null),
-      title: Text(title, style: TextStyle(fontWeight: isSelected ? FontWeight.bold : FontWeight.normal)),
-      trailing: isSelected ? Icon(Icons.check, color: Theme.of(context).colorScheme.primary) : null,
+      leading: Icon(
+        icon,
+        color: isSelected ? Theme.of(context).colorScheme.primary : null,
+      ),
+      title: Text(
+        title,
+        style: TextStyle(
+          fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+        ),
+      ),
+      trailing: isSelected
+          ? Icon(Icons.check, color: Theme.of(context).colorScheme.primary)
+          : null,
       onTap: () {
         provider.setThemeMode(mode);
         Navigator.pop(context);
@@ -262,13 +337,31 @@ class SettingsScreen extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: Text(l10n.settingsLanguage, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                child: Text(
+                  l10n.settingsLanguage,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
               ...supportedLanguages.entries.map((entry) {
                 final isSelected = provider.languageCode == entry.key;
                 return ListTile(
-                  title: Text(entry.value, style: TextStyle(fontWeight: isSelected ? FontWeight.bold : FontWeight.normal)),
-                  trailing: isSelected ? Icon(Icons.check, color: Theme.of(context).colorScheme.primary) : null,
+                  title: Text(
+                    entry.value,
+                    style: TextStyle(
+                      fontWeight: isSelected
+                          ? FontWeight.bold
+                          : FontWeight.normal,
+                    ),
+                  ),
+                  trailing: isSelected
+                      ? Icon(
+                          Icons.check,
+                          color: Theme.of(context).colorScheme.primary,
+                        )
+                      : null,
                   onTap: () {
                     provider.setLanguage(entry.key);
                     Navigator.pop(context);
