@@ -5,77 +5,406 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Oracle Map</title>
     <style>
+      :root {
+        color-scheme: light;
+        --ink: #17201b;
+        --muted: #5b665f;
+        --paper: #f8f5ef;
+        --surface: #ffffff;
+        --green: #083b2a;
+        --gold: #c79a32;
+        --line: #ddd6c9;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
       body {
         margin: 0;
-        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-        line-height: 1.5;
-        color: #17201b;
-        background: #f7f4ec;
-      }
-
-      main {
-        max-width: 840px;
-        margin: 0 auto;
-        padding: 56px 24px;
-      }
-
-      h1 {
-        font-size: clamp(2.4rem, 8vw, 4.5rem);
-        line-height: 1;
-        margin: 0 0 20px;
-      }
-
-      p {
-        max-width: 680px;
-        font-size: 1.08rem;
-      }
-
-      .links {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 12px;
-        margin-top: 28px;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        color: var(--ink);
+        background: var(--paper);
+        line-height: 1.55;
       }
 
       a {
-        color: #083b2a;
-        font-weight: 700;
+        color: inherit;
+      }
+
+      .page {
+        width: min(1120px, calc(100% - 32px));
+        margin: 0 auto;
+      }
+
+      header {
+        min-height: 92vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 48px 0 36px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 36px;
+      }
+
+      .brand img {
+        width: 68px;
+        height: 68px;
+        border-radius: 18px;
+        box-shadow: 0 16px 34px rgba(8, 59, 42, 0.16);
+      }
+
+      .brand span {
+        font-size: 1rem;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--green);
+      }
+
+      h1 {
+        max-width: 880px;
+        margin: 0;
+        font-size: clamp(3rem, 11vw, 7rem);
+        line-height: 0.95;
+        letter-spacing: 0;
+      }
+
+      .lead {
+        max-width: 720px;
+        margin: 28px 0 0;
+        font-size: clamp(1.12rem, 2vw, 1.38rem);
+        color: var(--muted);
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 32px;
+      }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        min-height: 46px;
+        padding: 0 18px;
+        border: 1px solid var(--green);
+        border-radius: 6px;
+        font-weight: 750;
+        text-decoration: none;
+      }
+
+      .button.primary {
+        background: var(--green);
+        color: white;
+      }
+
+      .hero-strip {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+        margin-top: 42px;
+        max-width: 760px;
+      }
+
+      .phone-shot {
+        display: block;
+        width: 100%;
+        aspect-ratio: 1008 / 2244;
+        object-fit: cover;
+        border-radius: 8px;
+        border: 1px solid var(--line);
+        box-shadow: 0 18px 40px rgba(23, 32, 27, 0.14);
       }
 
       section {
-        margin-top: 56px;
+        padding: 70px 0;
+        border-top: 1px solid var(--line);
+      }
+
+      .section-head {
+        max-width: 760px;
+        margin-bottom: 28px;
+      }
+
+      h2 {
+        margin: 0 0 12px;
+        font-size: clamp(1.8rem, 4vw, 3rem);
+        line-height: 1.08;
+        letter-spacing: 0;
+      }
+
+      .section-head p,
+      .copy p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 1.05rem;
+      }
+
+      .copy {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 22px;
+      }
+
+      .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .feature {
+        min-height: 136px;
+        padding: 18px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--surface);
+      }
+
+      .feature strong {
+        display: block;
+        margin-bottom: 8px;
+        color: var(--green);
+      }
+
+      .feature p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.98rem;
+      }
+
+      .screens {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 18px;
+      }
+
+      .screen-card {
+        padding: 10px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--surface);
+      }
+
+      .screen-card img {
+        width: 100%;
+        display: block;
+        border-radius: 6px;
+      }
+
+      .screen-card span {
+        display: block;
+        padding: 10px 2px 2px;
+        color: var(--muted);
+        font-size: 0.96rem;
+        font-weight: 700;
+      }
+
+      .tech-list,
+      .test-list {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+        padding: 0;
+        margin: 0;
+        list-style: none;
+      }
+
+      .tech-list li,
+      .test-list li {
+        padding: 14px 16px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--surface);
+        color: var(--muted);
+        font-weight: 650;
+      }
+
+      footer {
+        padding: 42px 0 56px;
+        color: var(--muted);
+        border-top: 1px solid var(--line);
+      }
+
+      @media (max-width: 800px) {
+        header {
+          min-height: auto;
+          padding-top: 36px;
+        }
+
+        .hero-strip {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .copy,
+        .feature-grid,
+        .screens,
+        .tech-list,
+        .test-list {
+          grid-template-columns: 1fr;
+        }
+
+        section {
+          padding: 52px 0;
+        }
       }
     </style>
   </head>
   <body>
-    <main>
-      <h1>Oracle Map</h1>
-      <p>
-        Oracle Map is a mobile app for small daily choices. It uses simple
-        physical actions, optional records, weather, and location to help users
-        reflect on the choices they make.
-      </p>
+    <div class="page">
+      <header>
+        <div class="brand">
+          <img src="../../assets/app_icon.png" alt="Oracle Map app icon">
+          <span>Oracle Map</span>
+        </div>
 
-      <div class="links">
-        <a href="../screenshots/">Screenshots</a>
-        <a href="../media/">Demo media</a>
-      </div>
+        <h1>A calm tool for everyday choices.</h1>
+        <p class="lead">
+          Oracle Map helps people pause, use simple physical actions, and record
+          the small decisions that shape daily life.
+        </p>
+
+        <div class="actions">
+          <a class="button primary" href="../media/Test.mp4">Watch demo</a>
+          <a class="button" href="../screenshots/">View screenshots</a>
+        </div>
+
+        <div class="hero-strip" aria-label="App screenshots">
+          <img class="phone-shot" src="../screenshots/Make%20Your%20Choice.png" alt="Choice tools screen">
+          <img class="phone-shot" src="../screenshots/Dice%20Roll.png" alt="Dice roll screen">
+          <img class="phone-shot" src="../screenshots/Map.png" alt="Decision Map screen">
+        </div>
+      </header>
 
       <section>
-        <h2>What it does</h2>
-        <p>
-          Users can flip a coin, draw tarot, roll dice, or draw a fortune stick.
-          They can then save the moment to a personal Decision Map.
-        </p>
+        <div class="section-head">
+          <h2>Not an answer machine.</h2>
+          <p>
+            The app does not tell users what to do. It supports reflection
+            through simple tools, movement, and optional records.
+          </p>
+        </div>
+        <div class="copy">
+          <p>
+            Small choices can take real energy. Oracle Map gives users a quiet
+            way to test how they feel about a result before making their own
+            final decision.
+          </p>
+          <p>
+            The tools are subjective by design: coin, tarot, dice, and fortune
+            sticks. They help users notice agreement, doubt, relief, or
+            resistance.
+          </p>
+        </div>
       </section>
 
       <section>
-        <h2>Why it exists</h2>
-        <p>
-          Small choices can still take energy. This app gives users a calm way
-          to pause, make a choice, and look back at their own patterns later.
-        </p>
+        <div class="section-head">
+          <h2>Core features</h2>
+          <p>
+            Four decision tools, optional saving, and a timeline for reviewing
+            choices later.
+          </p>
+        </div>
+        <div class="feature-grid">
+          <div class="feature">
+            <strong>Physical interaction</strong>
+            <p>Tap and shake gestures make each result feel less like a button press.</p>
+          </div>
+          <div class="feature">
+            <strong>Animated tools</strong>
+            <p>Coin, tarot, dice, and fortune sticks all give visible feedback.</p>
+          </div>
+          <div class="feature">
+            <strong>Decision Map</strong>
+            <p>Saved moments become a personal record of daily choices.</p>
+          </div>
+          <div class="feature">
+            <strong>Context records</strong>
+            <p>Mood, weather, location, and images can add meaning to each choice.</p>
+          </div>
+        </div>
       </section>
-    </main>
+
+      <section>
+        <div class="section-head">
+          <h2>Screens</h2>
+          <p>
+            The app uses simple screens for choosing a tool, making a decision,
+            and reviewing saved records.
+          </p>
+        </div>
+        <div class="screens">
+          <div class="screen-card">
+            <img src="../screenshots/Make%20Your%20Choice.png" alt="Make Your Choice screen">
+            <span>Choice tools</span>
+          </div>
+          <div class="screen-card">
+            <img src="../screenshots/Dice%20Roll.png" alt="Dice Roll screen">
+            <span>Dice roll</span>
+          </div>
+          <div class="screen-card">
+            <img src="../screenshots/Fortune%20Sticks.png" alt="Fortune Sticks screen">
+            <span>Fortune sticks</span>
+          </div>
+          <div class="screen-card">
+            <img src="../screenshots/Oracle.png" alt="Oracle tarot screen">
+            <span>Oracle</span>
+          </div>
+          <div class="screen-card">
+            <img src="../screenshots/Map.png" alt="Decision Map screen">
+            <span>Decision Map</span>
+          </div>
+          <div class="screen-card">
+            <img src="../screenshots/Settings.png" alt="Settings screen">
+            <span>Settings</span>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-head">
+          <h2>Connected environment</h2>
+          <p>
+            Each saved record can connect a personal decision with the physical
+            moment around it.
+          </p>
+        </div>
+        <ul class="tech-list">
+          <li>Motion sensors</li>
+          <li>Location data</li>
+          <li>OpenWeatherMap API</li>
+          <li>Firebase Auth</li>
+          <li>Cloud Firestore</li>
+          <li>Camera and gallery</li>
+        </ul>
+      </section>
+
+      <section>
+        <div class="section-head">
+          <h2>Tested on real devices</h2>
+          <p>The main flows were checked on both Android and iOS phones.</p>
+        </div>
+        <ul class="test-list">
+          <li>Google Pixel 9 Pro XL</li>
+          <li>iPhone 15 Pro</li>
+          <li>Install and launch</li>
+          <li>Tool animations</li>
+          <li>Shake interaction</li>
+          <li>Decision saving</li>
+        </ul>
+      </section>
+
+      <footer>
+        <strong>Oracle Map</strong><br>
+        CASA0015 Mobile Systems and Interactions
+      </footer>
+    </div>
   </body>
 </html>
