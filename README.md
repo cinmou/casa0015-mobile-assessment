@@ -22,6 +22,36 @@ Modern life has many small choices: what to eat, whether to go out, whether to r
 
 Oracle Map gives users simple physical tools for these moments. The app does not force a final answer. It helps users notice their own reaction to the result, then lets them record the moment if they want to.
 
+## Problem We Solve
+
+Oracle Map is designed for small daily decisions that slowly take time and mental energy away from users.
+
+Examples include:
+
+- what to eat for breakfast
+- whether to go out after work
+- whether to rest or watch a film
+- whether to meet friends or stay with family
+
+These are not large life decisions, but they still shape daily life. Many people do not need a system that gives them a direct answer. They need a calm tool that helps them stop for a moment, make a choice, and better understand how they feel about it.
+
+Oracle Map solves this by combining simple physical interactions, subjective decision tools, and optional reflection records.
+
+## Persona
+
+### Primary User: Mina, 27, Busy Urban Professional
+
+Mina makes many small decisions every day. None of them are serious on their own, but together they create decision fatigue. She does not want a heavy planning app, and she does not want an AI assistant to tell her what to do.
+
+What she wants is something quick, light, and personal:
+
+- a tool that helps her break indecision
+- a simple physical action that feels more real than pressing a plain button
+- a private way to record her mood and final choice
+- a way to look back and notice patterns in her own behaviour
+
+Oracle Map is designed for users like Mina. It supports reflection without becoming intrusive.
+
 ## Design Idea
 
 The app is non-intrusive. It does not tell the user what they must do, and it does not ask the user to record everything.
